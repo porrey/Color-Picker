@@ -1,0 +1,180 @@
+﻿<Page x:Class="LifxDemo.Views.LifxControllerPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:colorpicker="using:Porrey.Controls.ColorPicker"
+	  xmlns:prismMvvm="using:Prism.Windows.Mvvm"
+	  prismMvvm:ViewModelLocator.AutoWireViewModel="True"
+	  mc:Ignorable="d"
+	  RequestedTheme="Dark">
+
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="1*" />
+			<ColumnDefinition Width="4*" />
+		</Grid.ColumnDefinitions>
+
+		<TextBlock Grid.Row="0"
+				   Grid.Column="0"
+				   Grid.ColumnSpan="2"
+				   Text="{Binding SelectedItem.Name, TargetNullValue='Select a light...'}"
+				   FontSize="28"
+				   Foreground="White"
+				   VerticalAlignment="Center"
+				   HorizontalAlignment="Left"
+				   Margin="15" />
+
+		<TextBlock Grid.Row="1"
+				   Grid.Column="0"
+				   Text="Whites"
+				   FontSize="18"
+				   VerticalAlignment="Center"
+				   HorizontalAlignment="Center"
+				   Margin="0,0,0,10" />
+
+		<TextBlock Grid.Row="1"
+				   Grid.Column="1"
+				   Text="Colors"
+				   FontSize="18"
+				   VerticalAlignment="Center"
+				   HorizontalAlignment="Center"
+				   Margin="0,0,0,10" />
+
+		<ListView Grid.Row="2"
+				  Grid.Column="0"
+				  IsEnabled="{Binding SelectedItem,Converter={StaticResource NullToBooleanConverter}}"
+				  SelectedItem="{Binding SelectedWhiteItem, Mode=TwoWay}"
+				  ItemsSource="{Binding WhiteItems}"
+				  SelectionChanged="ListView_SelectionChanged">
+			<ListView.ItemContainerStyle>
+				<Style TargetType="ListViewItem">
+					<Setter Property="HorizontalContentAlignment"
+							Value="Stretch" />
+				</Style>
+			</ListView.ItemContainerStyle>
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<Border Margin="5"
+							Padding="5"
+							BorderBrush="Gray"
+							Background="{Binding Color}"
+							BorderThickness="2">
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="1*" />
+								<RowDefinition Height="1*" />
+							</Grid.RowDefinitions>
+
+							<TextBlock Grid.Row="0"
+									   Foreground="Black"
+									   Text="{Binding Name}" />
+
+							<TextBlock Grid.Row="1"
+									   Foreground="Black"
+									   Text="{Binding Kelvin}" />
+						</Grid>
+					</Border>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+
+		<colorpicker:ColorPickerWheel Grid.Row="2"
+									  Grid.Column="1"
+									  IsEnabled="{Binding SelectedItem,Converter={StaticResource NullToBooleanConverter}}"
+									  VerticalAlignment="Center"
+									  HorizontalAlignment="Center"
+									  BorderThickness="3"
+									  OuterDiameter="350"
+									  InnerDiameter="175"
+									  BorderBrush="LightGray"
+									  Background="Transparent"
+									  CenterBackground="#aa121212"
+									  IndicatorBackground="#aa121212"
+									  Hue="{Binding SelectedItem.Hue, Mode=TwoWay}">
+			<colorpicker:ColorPickerWheel.Content>
+				<ToggleSwitch Header="Power"
+							  Margin="0,0,-75,0"
+							  IsOn="{Binding SelectedItem.IsOn, Mode=TwoWay}" />
+			</colorpicker:ColorPickerWheel.Content>
+		</colorpicker:ColorPickerWheel>
+
+		<Grid Grid.Row="3"
+			  Grid.Column="0"
+			  Grid.ColumnSpan="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="125" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="125" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+			<TextBlock Grid.Column="0"
+					   Grid.Row="0"
+					   Text="Brightness"
+					   Foreground="White"
+					   FontSize="16"
+					   FontWeight="Medium"
+					   Margin="15"
+					   VerticalAlignment="Center"
+					   HorizontalAlignment="Right" />
+
+			<Slider Grid.Column="1"
+					Grid.Row="0"
+					IsEnabled="{Binding SelectedItem,Converter={StaticResource NullToBooleanConverter}}"
+					Minimum="0"
+					Maximum="100"
+					IsThumbToolTipEnabled="True"
+					Value="{Binding SelectedItem.Brightness, Mode=TwoWay, Converter={StaticResource DoubleToPercentConverter}}"
+					Margin="15" />
+
+			<TextBlock Grid.Column="2"
+					   Grid.Row="0"
+					   Text="{Binding SelectedItem.Brightness, Converter={StaticResource DoubleToStringPercentConverter}}"
+					   Foreground="White"
+					   FontSize="16"
+					   FontWeight="Medium"
+					   Margin="15"
+					   VerticalAlignment="Center"
+					   HorizontalAlignment="Center" />
+
+			<TextBlock Grid.Column="0"
+					   Grid.Row="1"
+					   Text="Color"
+					   Foreground="White"
+					   FontSize="16"
+					   FontWeight="Medium"
+					   Margin="15"
+					   VerticalAlignment="Center"
+					   HorizontalAlignment="Right" />
+
+			<Slider Grid.Column="1"
+					Grid.Row="1"
+					IsEnabled="{Binding SelectedItem,Converter={StaticResource NullToBooleanConverter}}"
+					Minimum="0"
+					Maximum="100"
+					IsThumbToolTipEnabled="True"
+					Value="{Binding SelectedItem.Saturation, Mode=TwoWay, Converter={StaticResource DoubleToPercentConverter}}"
+					Margin="15" />
+
+			<TextBlock Grid.Column="2"
+					   Grid.Row="1"
+					   Text="{Binding SelectedItem.Saturation, Converter={StaticResource DoubleToStringPercentConverter}}"
+					   Foreground="White"
+					   FontSize="16"
+					   FontWeight="Medium"
+					   Margin="15"
+					   VerticalAlignment="Center"
+					   HorizontalAlignment="Center" />
+		</Grid>
+	</Grid>
+</Page>

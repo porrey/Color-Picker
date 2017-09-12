@@ -1,0 +1,404 @@
+﻿<Page x:Class="ColorPickerDemo.MainPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:colorpicker="using:Porrey.Controls.ColorPicker"
+	  xmlns:lightbutton="using:Porrey.Controls.LightButton"
+	  mc:Ignorable="d">
+
+	<Page.Resources>
+		<x:Double x:Key="HeaderFontSize">22</x:Double>
+		<Color x:Key="CenterBackgroundColor">#F2FFFFFF</Color>
+		<SolidColorBrush x:Key="CenterBackgroundBrush"
+						 Color="{StaticResource CenterBackgroundColor}" />
+
+	</Page.Resources>
+
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="80" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="200" />
+			<ColumnDefinition Width="200" />
+		</Grid.ColumnDefinitions>
+
+		<!-- Color Values -->
+		<Grid Grid.Row="0"
+			  Grid.Column="0"
+			  Grid.ColumnSpan="2"
+			  Padding="10"
+			  Margin="10">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="1*" />
+				<ColumnDefinition Width="1*" />
+				<ColumnDefinition Width="1*" />
+				<ColumnDefinition Width="1*" />
+			</Grid.ColumnDefinitions>
+
+			<!-- Hue -->
+			<Grid Grid.Column="0"
+				  Margin="5,0,5,0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+
+				<TextBlock Grid.Column="0"
+						   Text="Hue"
+						   FontWeight="Bold"
+						   FontSize="{StaticResource HeaderFontSize}"
+						   VerticalAlignment="Center"
+						   HorizontalAlignment="Center"
+						   Margin="3" />
+
+				<Border Grid.Column="1"
+						BorderBrush="Black"
+						BorderThickness="1"
+						Margin="3">
+					<Grid>
+						<Rectangle Fill="{x:Bind SelectedColor,Mode=OneWay}" />
+
+						<TextBlock Text="{Binding ElementName=ColorPicker, Path=Hue, Mode=OneWay}"
+								   FontWeight="Light"
+								   FontSize="{StaticResource HeaderFontSize}"
+								   Foreground="{x:Bind FontColor, Mode=OneWay}"
+								   VerticalAlignment="Center"
+								   HorizontalAlignment="Center"
+								   Margin="3" />
+					</Grid>
+				</Border>
+			</Grid>
+
+			<!-- Red -->
+			<Grid Grid.Column="1"
+				  Margin="5,0,5,0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+
+				<TextBlock Grid.Column="0"
+						   Text="Red"
+						   FontWeight="Bold"
+						   FontSize="{StaticResource HeaderFontSize}"
+						   VerticalAlignment="Center"
+						   HorizontalAlignment="Center"
+						   Margin="3" />
+
+				<Border Grid.Column="1"
+						BorderBrush="Black"
+						BorderThickness="1"
+						Margin="3">
+					<Grid>
+						<Rectangle Fill="Red">
+							<Rectangle.RenderTransform>
+								<ScaleTransform ScaleX="{x:Bind RedPercent,Mode=OneWay}" />
+							</Rectangle.RenderTransform>
+						</Rectangle>
+
+						<TextBlock Text="{Binding ElementName=ColorPicker, Path=SelectedColor.Color.R, Mode=OneWay}"
+								   FontWeight="Light"
+								   FontSize="{StaticResource HeaderFontSize}"
+								   Foreground="Black"
+								   VerticalAlignment="Center"
+								   HorizontalAlignment="Center"
+								   Margin="3" />
+					</Grid>
+				</Border>
+			</Grid>
+
+			<!-- Green -->
+			<Grid  Grid.Column="2"
+				   Margin="5,0,5,0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+
+				<TextBlock Grid.Column="0"
+						   Text="Green"
+						   FontWeight="Bold"
+						   FontSize="{StaticResource HeaderFontSize}"
+						   VerticalAlignment="Center"
+						   HorizontalAlignment="Center"
+						   Margin="3" />
+
+				<Border Grid.Column="1"
+						BorderBrush="Black"
+						BorderThickness="1"
+						Margin="3">
+					<Grid>
+						<Rectangle Fill="Green">
+							<Rectangle.RenderTransform>
+								<ScaleTransform ScaleX="{x:Bind GreenPercent,Mode=OneWay}" />
+							</Rectangle.RenderTransform>
+						</Rectangle>
+
+						<TextBlock Text="{Binding ElementName=ColorPicker, Path=SelectedColor.Color.R, Mode=OneWay}"
+								   FontWeight="Light"
+								   FontSize="{StaticResource HeaderFontSize}"
+								   Foreground="Black"
+								   VerticalAlignment="Center"
+								   HorizontalAlignment="Center"
+								   Margin="3" />
+					</Grid>
+				</Border>
+			</Grid>
+
+			<!-- Blue -->
+			<Grid  Grid.Column="3"
+				   Margin="5,0,5,0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+
+				<TextBlock Grid.Column="0"
+						   Text="Blue"
+						   FontWeight="Bold"
+						   FontSize="{StaticResource HeaderFontSize}"
+						   VerticalAlignment="Center"
+						   HorizontalAlignment="Center"
+						   Margin="3" />
+
+				<Border Grid.Column="1"
+						BorderBrush="Black"
+						BorderThickness="1"
+						Margin="3">
+					<Grid>
+						<Rectangle Fill="Blue">
+							<Rectangle.RenderTransform>
+								<ScaleTransform ScaleX="{x:Bind BluePercent,Mode=OneWay}" />
+							</Rectangle.RenderTransform>
+						</Rectangle>
+
+						<TextBlock Text="{Binding ElementName=ColorPicker, Path=SelectedColor.Color.R, Mode=OneWay}"
+								   FontWeight="Light"
+								   FontSize="{StaticResource HeaderFontSize}"
+								   Foreground="Black"
+								   VerticalAlignment="Center"
+								   HorizontalAlignment="Center"
+								   Margin="3" />
+					</Grid>
+				</Border>
+			</Grid>
+		</Grid>
+
+		<!-- Color Picker -->
+		<Grid x:Name="Grid"
+			  Grid.Row="1"
+			  Grid.Column="0">
+			<colorpicker:ColorPickerWheel x:Name="ColorPicker"
+										  IsEnabled="True"
+										  VerticalAlignment="Center"
+										  HorizontalAlignment="Center"
+										  BorderThickness="2"
+										  OuterDiameter="400"
+										  InnerDiameter="250"
+										  Hue="45"
+										  Luminosity=".5"
+										  Saturation="1.0"
+										  BorderBrush="#bb000000"
+										  Background="Transparent"
+										  CenterBackground="{StaticResource CenterBackgroundBrush}"
+										  Margin="0,20,0,0"
+										  IndicatorOffset="1"
+										  IndicatorScale="1"
+										  IndicatorBackground="{StaticResource ButtonBackground}"
+										  SelectedColorChanged="ColorPicker_SelectedColorChanged">
+				<colorpicker:ColorPickerWheel.Content>
+					<lightbutton:TogglePowerSwitch x:Name="PowerSwitch"
+												   IsThreeState="False"
+												   IsChecked="False"
+												   Width="250"
+												   Foreground="#FF6E6E6E"
+												   Brightness="{Binding ElementName=Brightness, Path=Value,Converter={StaticResource PercentToDoubleConverter}}" />
+				</colorpicker:ColorPickerWheel.Content>
+			</colorpicker:ColorPickerWheel>
+		</Grid>
+
+		<!-- Brightness -->
+		<Grid Grid.Row="1"
+			  Grid.Column="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="50" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+
+			<TextBlock Grid.Row="0"
+					   Text="Brightness"
+					   VerticalAlignment="Center"
+					   HorizontalAlignment="Center" 
+					   FontWeight="Medium"/>
+
+			<Slider x:Name="Brightness"
+					Grid.Row="1"
+					Orientation="Vertical"
+					HorizontalAlignment="Center"
+					Margin="15"
+					Minimum="0"
+					Maximum="100"
+					Value="100" />
+		</Grid>
+
+		<!-- Options -->
+		<Border Grid.Row="1"
+				Grid.Column="2"
+				BorderBrush="Black"
+				BorderThickness="1"
+				Padding="10"
+				Margin="10">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="1*" />
+					<RowDefinition Height="1*" />
+					<RowDefinition Height="1*" />
+					<RowDefinition Height="1*" />
+					<RowDefinition Height="1*" />
+					<RowDefinition Height="1*" />
+					<RowDefinition Height="1*" />
+					<RowDefinition Height="1*" />
+				</Grid.RowDefinitions>
+
+				<TextBlock Grid.Row="0"
+						   Text="Enable/Disable Control"
+						   VerticalAlignment="Bottom"
+						   HorizontalAlignment="Center"
+						   Margin="0,0,0,10"
+						   FontWeight="Medium" />
+				<CheckBox x:Name="IsEnabledCheckBox"
+						  Grid.Row="1"
+						  VerticalAlignment="Top"
+						  HorizontalAlignment="Center"
+						  IsChecked="{Binding ElementName=ColorPicker, Path=IsEnabled,Mode=TwoWay}"
+						  Margin="0,10,0,0">
+					<CheckBox.Content>
+						<TextBlock Text="Enabled"
+								   Margin="5,0,0,0" />
+					</CheckBox.Content>
+				</CheckBox>
+
+				<TextBlock Grid.Row="2"
+						   Text="Enable/Disable Inertia"
+						   VerticalAlignment="Bottom"
+						   HorizontalAlignment="Center"
+						   Margin="0,0,0,10"
+						   FontWeight="Medium" />
+				<CheckBox Grid.Row="3"
+						  VerticalAlignment="Top"
+						  HorizontalAlignment="Center"
+						  IsChecked="{Binding ElementName=ColorPicker, Path=IsInertiaEnabled,Mode=TwoWay}"
+						  Margin="0,10,0,0">
+					<CheckBox.Content>
+						<TextBlock Text="Enabled"
+								   Margin="5,0,0,0" />
+					</CheckBox.Content>
+				</CheckBox>
+
+				<TextBlock Grid.Row="4"
+						   Text="Light Power On/Off"
+						   VerticalAlignment="Bottom"
+						   HorizontalAlignment="Center"
+						   Margin="0,0,0,10"
+						   FontWeight="Medium" />
+				<CheckBox Grid.Row="5"
+						  VerticalAlignment="Top"
+						  HorizontalAlignment="Center"
+						  IsChecked="{Binding ElementName=PowerSwitch, Path=IsChecked,Mode=TwoWay}"
+						  Margin="0,10,0,0">
+					<CheckBox.Content>
+						<TextBlock Text="On/Off"
+								   Margin="5,0,0,0" />
+					</CheckBox.Content>
+				</CheckBox>
+
+				<TextBlock Grid.Row="6"
+						   Text="Reset Color Settings"
+						   VerticalAlignment="Bottom"
+						   HorizontalAlignment="Center"
+						   Margin="0,0,0,10"
+						   FontWeight="Medium" />
+				<Button Grid.Row="7"
+						VerticalAlignment="Bottom"
+						HorizontalAlignment="Center"
+						Content="Reset"
+						Width="100"
+						Height="50"
+						BorderBrush="Black"
+						Click="Button_Click" />
+			</Grid>
+		</Border>
+
+		<Grid Grid.Row="2"
+			  Grid.Column="0"
+			  Grid.ColumnSpan="3"
+			  Padding="10"
+			  Margin="10">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="150" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="150" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="1*" />
+				<RowDefinition Height="1*" />
+			</Grid.RowDefinitions>
+
+			<TextBlock Grid.Row="0"
+					   Grid.Column="0"
+					   Text="Luminosity"
+					   VerticalAlignment="Center"
+					   HorizontalAlignment="Left"
+					   FontWeight="Bold"
+					   FontSize="{StaticResource HeaderFontSize}"
+					   Margin="10" />
+
+			<Slider Grid.Row="0"
+					Grid.Column="1"
+					Minimum="0"
+					Maximum="100"
+					Value="{Binding ElementName=ColorPicker,Path=Luminosity, Mode=TwoWay, Converter={StaticResource DoubleToPercentConverter}}"
+					Margin="50,20,50,20" />
+
+			<TextBlock Grid.Row="0"
+					   Grid.Column="2"
+					   Text="{Binding ElementName=ColorPicker, Path=Luminosity,Mode=OneWay, Converter={StaticResource DoubleToStringPercentConverter}}"
+					   FontWeight="Light"
+					   FontSize="{StaticResource HeaderFontSize}"
+					   VerticalAlignment="Center"
+					   HorizontalAlignment="Center"
+					   Margin="10" />
+
+			<TextBlock Grid.Row="1"
+					   Grid.Column="0"
+					   Text="Saturation"
+					   VerticalAlignment="Center"
+					   HorizontalAlignment="Left"
+					   FontWeight="Bold"
+					   FontSize="{StaticResource HeaderFontSize}"
+					   Margin="10" />
+
+			<Slider Grid.Row="1"
+					Grid.Column="1"
+					Minimum="0"
+					Maximum="100"
+					Value="{Binding ElementName=ColorPicker,Path=Saturation, Mode=TwoWay, Converter={StaticResource DoubleToPercentConverter}}"
+					Margin="50,20,50,20" />
+
+			<TextBlock Grid.Row="1"
+					   Grid.Column="2"
+					   Text="{Binding ElementName=ColorPicker, Path=Saturation,Mode=OneWay, Converter={StaticResource DoubleToStringPercentConverter}}"
+					   FontWeight="Light"
+					   FontSize="{StaticResource HeaderFontSize}"
+					   VerticalAlignment="Center"
+					   HorizontalAlignment="Center"
+					   Margin="10" />
+		</Grid>
+
+	</Grid>
+</Page>
