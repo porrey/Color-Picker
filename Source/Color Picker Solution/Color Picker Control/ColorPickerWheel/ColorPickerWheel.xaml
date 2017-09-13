@@ -1,10 +1,10 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:colorpicker="using:Porrey.Controls.ColorPicker"
+					xmlns:local="using:Porrey.Controls.ColorPicker"
 					xmlns:converters="using:Porrey.Controls.ColorPicker.Converters">
 
 	<converters:DoubleToCornerRadiusConverter x:Key="DoubleToCornerRadiusConverter" />
-	
+
 	<SolidColorBrush x:Key="HueColorPickerBackground"
 					 Color="Transparent" />
 
@@ -32,9 +32,7 @@
 	<SolidColorBrush x:Key="HueColorPickerIndicatorBackgroundDisabled"
 					 Color="Transparent" />
 
-	<Style TargetType="colorpicker:ColorPickerWheel">
-		<Setter Property="OuterDiameter"
-				Value="400" />
+	<Style TargetType="local:ColorPickerWheel">
 		<Setter Property="InnerDiameter"
 				Value="250" />
 		<Setter Property="BorderBrush"
@@ -54,7 +52,7 @@
 
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="colorpicker:ColorPickerWheel">
+				<ControlTemplate TargetType="local:ColorPickerWheel">
 					<Grid Name="RootGrid"
 						  Background="{TemplateBinding Background}"
 						  BorderBrush="{TemplateBinding BorderBrush}"
@@ -104,14 +102,14 @@
 						</VisualStateManager.VisualStateGroups>
 
 						<Border Name="PART_Rotary"
-								Margin="0,5,0,0"
+								Width="{TemplateBinding Width}"
+								Height="{TemplateBinding Width}"
+								Margin="0"
 								BorderThickness="{TemplateBinding BorderThickness}"
 								BorderBrush="{TemplateBinding BorderBrush}"
-								Width="{TemplateBinding OuterDiameter}"
-								Height="{TemplateBinding OuterDiameter}"
 								CornerRadius="{Binding ElementName=PART_Rotary, Path=Width, Converter={StaticResource DoubleToCornerRadiusConverter}}"
 								RenderTransformOrigin="0.5,0.5"
-								VerticalAlignment="Top"
+								VerticalAlignment="Center"
 								HorizontalAlignment="Center">
 							<Border.RenderTransform>
 								<RotateTransform Angle="0" />
@@ -133,9 +131,6 @@
 							<Border Name="PART_Center"
 									BorderBrush="{Binding ElementName=PART_Rotary, Path=BorderBrush}"
 									BorderThickness="{Binding ElementName=PART_Rotary, Path=BorderThickness}"
-									Width="{TemplateBinding InnerDiameter}"
-									Height="{TemplateBinding InnerDiameter}"
-									CornerRadius="{Binding ElementName=PART_Center, Path=Width, Converter={StaticResource DoubleToCornerRadiusConverter}}"
 									VerticalAlignment="Center"
 									HorizontalAlignment="Center">
 								<Grid>
@@ -160,7 +155,8 @@
 							</Polygon.RenderTransform>
 						</Polygon>
 
-						<Polygon Points="0,0 60,0 30,40"
+						<Polygon Name="PART_IndicatorBorder"
+								 Points="0,0 60,0 30,40"
 								 Stroke="{TemplateBinding BorderBrush}"
 								 StrokeThickness="{TemplateBinding BorderThickness}"
 								 Fill="Transparent"

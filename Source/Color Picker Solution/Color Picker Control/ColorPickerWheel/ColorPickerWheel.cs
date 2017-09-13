@@ -1,9 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Windows;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 
@@ -16,17 +19,94 @@ namespace Porrey.Controls.ColorPicker
 	[TemplatePart(Name = "PART_Rotary", Type = typeof(Border))]
 	[TemplatePart(Name = "PART_Center", Type = typeof(Border))]
 	[TemplatePart(Name = "PART_Indicator", Type = typeof(Polygon))]
+	[TemplatePart(Name = "PART_IndicatorBorder", Type = typeof(Polygon))]
 	[TemplatePart(Name = "PART_Content", Type = typeof(Polygon))]
+	[ContentProperty(Name = "Content")]
 	public class ColorPickerWheel : ContentControl
 	{
 		public ColorPickerWheel()
 		{
 			this.DefaultStyleKey = typeof(ColorPickerWheel);
 			this.IsEnabledChanged += this.HueColorPicker_IsEnabledChanged;
+			this.SizeChanged += this.ColorPickerWheel_SizeChanged;
 		}
 
+		#region Sizing
+		private void ColorPickerWheel_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			this.UpdateSize(e.NewSize);
+		}
+
+		protected void UpdateSize(Size size)
+		{
+			if (this.Rotary != null)
+			{
+				this.Rotary.Width = size.Width;
+				this.Rotary.Height = size.Height;
+				this.Rotary.CornerRadius = new CornerRadius(size.Width);
+
+				if (this.Center != null)
+				{
+					double innerDiameter = this.GetInnerDiameter(size.Width);
+					this.Center.Width = innerDiameter;
+					this.Center.Height = innerDiameter;
+					this.Center.CornerRadius = new CornerRadius(innerDiameter);
+				}
+			}
+		}
+
+		protected double GetOuterDiameter(Size containerSize)
+		{
+			double returnValue = 0;
+
+			if (this.Rotary != null)
+			{
+				if (containerSize.Width < containerSize.Height)
+				{
+					returnValue = containerSize.Width - (this.Padding.Left + this.Padding.Right) - 10.0;
+				}
+				else
+				{
+					returnValue = containerSize.Height - (this.Padding.Top + this.Padding.Bottom) - 10.0;
+				}
+			}
+
+			return returnValue;
+		}
+
+		protected double GetInnerDiameter(double outerDiameter)
+		{
+			double returnValue = 0;
+
+			if (this.Center != null)
+			{
+				returnValue = this.InnerDiameter * outerDiameter;
+			}
+
+			return returnValue;
+		}
+
+		protected Size GetOuterDiameterSize(Size availableSize)
+		{
+			Size returnVaule = new Size();
+
+			if (this.Rotary != null)
+			{
+				double outerDiameter = this.GetOuterDiameter(availableSize);
+				returnVaule.Width = outerDiameter;
+				returnVaule.Height = outerDiameter;
+			}
+
+			return returnVaule;
+		}
+
+		protected override Size MeasureOverride(Size availableSize)
+		{
+			return this.GetOuterDiameterSize(availableSize);
+		}
+		#endregion
+
 		#region Dependency Properties
-		public static readonly DependencyProperty OuterDiameterProperty = DependencyProperty.Register("OuterDiameter", typeof(double), typeof(ColorPickerWheel), new PropertyMetadata(300.0, new PropertyChangedCallback(OnOuterDiameterPropertyChanged)));
 		public static readonly DependencyProperty InnerDiameterProperty = DependencyProperty.Register("InnerDiameter", typeof(double), typeof(ColorPickerWheel), new PropertyMetadata(150.0, new PropertyChangedCallback(OnInnerDiameterPropertyChanged)));
 		public static readonly DependencyProperty CenterBackgroundProperty = DependencyProperty.Register("CenterBackground", typeof(Brush), typeof(ColorPickerWheel), new PropertyMetadata(null, new PropertyChangedCallback(OnCenterBackgroundPropertyChanged)));
 		public static readonly DependencyProperty IndicatorBackgroundProperty = DependencyProperty.Register("IndicatorBackground", typeof(Brush), typeof(ColorPickerWheel), new PropertyMetadata(null, new PropertyChangedCallback(OnIndicatorBackgroundPropertyChanged)));
@@ -41,7 +121,6 @@ namespace Porrey.Controls.ColorPicker
 		#endregion
 
 		#region Public Events
-		public event EventHandler<ValueChangedEventArgs<double>> OuterDiameterChanged = null;
 		public event EventHandler<ValueChangedEventArgs<double>> InnerDiameterChanged = null;
 		public event EventHandler<ValueChangedEventArgs<Brush>> CenterBackgroundChanged = null;
 		public event EventHandler<ValueChangedEventArgs<Brush>> IndicatorBackgroundChanged = null;
@@ -53,17 +132,6 @@ namespace Porrey.Controls.ColorPicker
 		public event EventHandler<ValueChangedEventArgs<double>> LuminosityChanged = null;
 		public event EventHandler<ValueChangedEventArgs<SolidColorBrush>> SelectedColorChanged = null;
 		public event EventHandler<ValueChangedEventArgs<bool>> IsInertiaEnabledChanged = null;
-
-		protected virtual void RaiseOuterDiameterChangedEvent(double previousValue, double newValue)
-		{
-			ValueChangedEventArgs<double> e = new ValueChangedEventArgs<double>(previousValue, newValue);
-			this.OnOuterDiameterChangedEvent(this, e);
-			this.OuterDiameterChanged?.Invoke(this, e);
-		}
-
-		protected virtual void OnOuterDiameterChangedEvent(object sender, ValueChangedEventArgs<double> e)
-		{
-		}
 
 		protected virtual void RaiseInnerDiameterChangedEvent(double previousValue, double newValue)
 		{
@@ -190,32 +258,19 @@ namespace Porrey.Controls.ColorPicker
 		#endregion
 
 		#region Dependency Property Change Callbacks
-		private static void OnOuterDiameterPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			if (d is ColorPickerWheel instance)
-			{
-				if (instance.OuterDiameter > instance.InnerDiameter)
-				{
-					instance.RaiseOuterDiameterChangedEvent(Convert.ToDouble(e.OldValue), Convert.ToDouble(e.NewValue));
-				}
-				else
-				{
-					throw new ArgumentOutOfRangeException("OuterDiameter", "Outer Diameter must be a greater than Inner Diameter.");
-				}
-			}
-		}
-
 		private static void OnInnerDiameterPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			if (d is ColorPickerWheel instance)
 			{
-				if (instance.InnerDiameter < instance.OuterDiameter)
+				if (instance.InnerDiameter >= 0 && instance.InnerDiameter <= 1.0)
 				{
+					//Size rotarySize = instance.GetOuterDiameterSize(new Size(instance.Width, instance.Height));
+					//instance.UpdateSize(rotarySize);
 					instance.RaiseInnerDiameterChangedEvent(Convert.ToDouble(e.OldValue), Convert.ToDouble(e.NewValue));
 				}
 				else
 				{
-					throw new ArgumentOutOfRangeException("InnerDiameter", "Inner Diameter must be a less than Outer Diameter.");
+					throw new ArgumentOutOfRangeException("InnerDiameter", "Inner Diameter must be a value between 0 and 1.0.");
 				}
 			}
 		}
@@ -356,13 +411,22 @@ namespace Porrey.Controls.ColorPicker
 
 			if (this.GetTemplateChild("PART_Center") is Border center)
 			{
-				center.ManipulationMode = ManipulationModes.None;
-				center.Tapped += this.Center_Tapped;
+				this.Center = center;
+				this.Center.ManipulationMode = ManipulationModes.None;
+				this.Center.Tapped += this.Center_Tapped;
 			}
 
-			if (this.GetTemplateChild("PART_Indicator") is Polygon Indicator)
+			if (this.GetTemplateChild("PART_Indicator") is Polygon indicator)
 			{
-				this.IndicatorTransform = (CompositeTransform)Indicator.RenderTransform;
+				this.IndicatorTransform = (CompositeTransform)indicator.RenderTransform;
+				this.IndicatorTransform.ScaleX = this.IndicatorScale;
+				this.IndicatorTransform.ScaleY = this.IndicatorScale;
+				this.IndicatorTransform.TranslateY = this.IndicatorOffset;
+			}
+
+			if (this.GetTemplateChild("PART_IndicatorBorder") is Polygon indicatorBorder)
+			{
+				this.IndicatorTransform = (CompositeTransform)indicatorBorder.RenderTransform;
 				this.IndicatorTransform.ScaleX = this.IndicatorScale;
 				this.IndicatorTransform.ScaleY = this.IndicatorScale;
 				this.IndicatorTransform.TranslateY = this.IndicatorOffset;
@@ -486,6 +550,7 @@ namespace Porrey.Controls.ColorPicker
 		protected ManipulationModes ManipulationWithoutInertia { get; } = ManipulationModes.TranslateX | ManipulationModes.TranslateY | ManipulationModes.Rotate;
 
 		protected Border Rotary { get; set; }
+		protected Border Center { get; set; }
 		protected RotateTransform RotateTransform { get; set; }
 		protected Brush GradientBrush { get; set; }
 		protected CompositeTransform IndicatorTransform { get; set; }
@@ -509,18 +574,6 @@ namespace Porrey.Controls.ColorPicker
 		#endregion
 
 		#region Public Methods & Properties
-		public double OuterDiameter
-		{
-			get
-			{
-				return (double)GetValue(OuterDiameterProperty);
-			}
-			set
-			{
-				SetValue(OuterDiameterProperty, value);
-			}
-		}
-
 		public double InnerDiameter
 		{
 			get

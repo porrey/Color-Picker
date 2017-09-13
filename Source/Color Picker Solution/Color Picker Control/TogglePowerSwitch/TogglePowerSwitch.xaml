@@ -1,6 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:local="using:Porrey.Controls.LightButton">
+					xmlns:local="using:Porrey.Controls.ColorPicker">
 
 	<Style TargetType="local:TogglePowerSwitch">
 		<Setter Property="Template">
@@ -173,7 +173,7 @@
 											 Width="135"
 											 Height="135"
 											 Foreground="{TemplateBinding Foreground}"
-											 UriSource="ms-appx:///Porrey.Controls.LightButton/Assets/light.png">
+											 UriSource="ms-appx:///Porrey.Controls.ColorPicker/Assets/light.png">
 									<BitmapIcon.RenderTransform>
 										<TranslateTransform Y="9" />
 									</BitmapIcon.RenderTransform>

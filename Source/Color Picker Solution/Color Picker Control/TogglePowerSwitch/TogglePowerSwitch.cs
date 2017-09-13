@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 
-namespace Porrey.Controls.LightButton
+namespace Porrey.Controls.ColorPicker
 {
 	[TemplateVisualState(Name = "Normal", GroupName = "CommonStates")]
 	[TemplatePart(Name = "PART_OuterBorder", Type = typeof(Border))]

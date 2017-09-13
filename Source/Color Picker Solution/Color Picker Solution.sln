@@ -1,19 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Color Picker Demo", "Color Picker Demo\Color Picker Demo.csproj", "{465683C1-ADEB-4EEF-9FF8-9E286284EF39}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Color Picker Control", "Color Picker Control\Color Picker Control.csproj", "{54AC9C22-E869-49EF-9DEF-C055CBA4C372}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LIFX Demo", "LIFX Demo\LIFX Demo.csproj", "{5CD7CD95-3A3C-4EB2-8A5F-BA411FE882C8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Light Button Control", "Light Button Control\Light Button Control.csproj", "{3726165E-EE76-416E-AB60-6C22D4C82CA2}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Controls", "Controls", "{6450B382-C1C0-43E0-86EF-FCB0954ED58C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{9229FF6D-1E29-4F1B-AD42-D7718C356878}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,31 +77,9 @@ Global
 		{5CD7CD95-3A3C-4EB2-8A5F-BA411FE882C8}.Release|x86.ActiveCfg = Release|x86
 		{5CD7CD95-3A3C-4EB2-8A5F-BA411FE882C8}.Release|x86.Build.0 = Release|x86
 		{5CD7CD95-3A3C-4EB2-8A5F-BA411FE882C8}.Release|x86.Deploy.0 = Release|x86
-		{3726165E-EE76-416E-AB60-6C22D4C82CA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3726165E-EE76-416E-AB60-6C22D4C82CA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3726165E-EE76-416E-AB60-6C22D4C82CA2}.Debug|ARM.ActiveCfg = Debug|ARM
-		{3726165E-EE76-416E-AB60-6C22D4C82CA2}.Debug|ARM.Build.0 = Debug|ARM
-		{3726165E-EE76-416E-AB60-6C22D4C82CA2}.Debug|x64.ActiveCfg = Debug|x64
-		{3726165E-EE76-416E-AB60-6C22D4C82CA2}.Debug|x64.Build.0 = Debug|x64
-		{3726165E-EE76-416E-AB60-6C22D4C82CA2}.Debug|x86.ActiveCfg = Debug|x86
-		{3726165E-EE76-416E-AB60-6C22D4C82CA2}.Debug|x86.Build.0 = Debug|x86
-		{3726165E-EE76-416E-AB60-6C22D4C82CA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3726165E-EE76-416E-AB60-6C22D4C82CA2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3726165E-EE76-416E-AB60-6C22D4C82CA2}.Release|ARM.ActiveCfg = Release|ARM
-		{3726165E-EE76-416E-AB60-6C22D4C82CA2}.Release|ARM.Build.0 = Release|ARM
-		{3726165E-EE76-416E-AB60-6C22D4C82CA2}.Release|x64.ActiveCfg = Release|x64
-		{3726165E-EE76-416E-AB60-6C22D4C82CA2}.Release|x64.Build.0 = Release|x64
-		{3726165E-EE76-416E-AB60-6C22D4C82CA2}.Release|x86.ActiveCfg = Release|x86
-		{3726165E-EE76-416E-AB60-6C22D4C82CA2}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{465683C1-ADEB-4EEF-9FF8-9E286284EF39} = {9229FF6D-1E29-4F1B-AD42-D7718C356878}
-		{54AC9C22-E869-49EF-9DEF-C055CBA4C372} = {6450B382-C1C0-43E0-86EF-FCB0954ED58C}
-		{5CD7CD95-3A3C-4EB2-8A5F-BA411FE882C8} = {9229FF6D-1E29-4F1B-AD42-D7718C356878}
-		{3726165E-EE76-416E-AB60-6C22D4C82CA2} = {6450B382-C1C0-43E0-86EF-FCB0954ED58C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E80B507F-DC71-413A-A4BC-28F05EBD1FD5}

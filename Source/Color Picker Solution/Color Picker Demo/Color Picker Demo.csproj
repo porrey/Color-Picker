@@ -138,10 +138,6 @@
       <Project>{54ac9c22-e869-49ef-9def-c055cba4c372}</Project>
       <Name>Color Picker Control</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Light Button Control\Light Button Control.csproj">
-      <Project>{3726165e-ee76-416e-ab60-6c22d4c82ca2}</Project>
-      <Name>Light Button Control</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
