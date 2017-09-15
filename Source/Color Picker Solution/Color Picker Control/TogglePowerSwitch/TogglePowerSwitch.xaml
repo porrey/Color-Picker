@@ -6,7 +6,8 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:TogglePowerSwitch">
-					<Grid Name="RootGrid">
+					<Grid Name="RootGrid"
+						  Background="Transparent">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CombinedStates">
 								<VisualState x:Name="UncheckedNormal">
@@ -125,9 +126,6 @@
 						<Border Name="PART_OuterBorder"
 								BorderThickness="{TemplateBinding BorderThickness}"
 								BorderBrush="{TemplateBinding BorderBrush}"
-								Width="{TemplateBinding Width}"
-								Height="{TemplateBinding Width}"
-								CornerRadius="{TemplateBinding Width}"
 								Background="{TemplateBinding Background}"
 								Opacity="{TemplateBinding Opacity}">
 							<Grid>
@@ -155,30 +153,31 @@
 								</Ellipse>
 
 								<Ellipse x:Name="PART_LightColor"
-										 VerticalAlignment="Center"
-										 HorizontalAlignment="Center"
-										 Width="95"
-										 Height="95"
+										 VerticalAlignment="Stretch"
+										 HorizontalAlignment="Stretch"
 										 Fill="{Binding ElementName=ColorPicker,Path=SelectedColor}"
-										 Opacity=".8"
-										 Visibility="Visible">
+										 Opacity=".7"
+										 Visibility="Visible"
+										 RenderTransformOrigin="0.5, 0.5">
 									<Ellipse.RenderTransform>
-										<TranslateTransform Y="-9" />
+										<CompositeTransform TranslateY="-11.5"
+															ScaleX=".42"
+															ScaleY=".42" />
 									</Ellipse.RenderTransform>
 								</Ellipse>
 
 								<BitmapIcon  Name="PART_Icon"
 											 VerticalAlignment="Center"
 											 HorizontalAlignment="Center"
-											 Width="135"
-											 Height="135"
 											 Foreground="{TemplateBinding Foreground}"
+											 RenderTransformOrigin="0.5, 0.5"
 											 UriSource="ms-appx:///Porrey.Controls.ColorPicker/Assets/light.png">
 									<BitmapIcon.RenderTransform>
-										<TranslateTransform Y="9" />
+										<CompositeTransform TranslateY="9"
+															ScaleX=".65"
+															ScaleY=".65" />
 									</BitmapIcon.RenderTransform>
 								</BitmapIcon>
-					
 							</Grid>
 						</Border>
 					</Grid>

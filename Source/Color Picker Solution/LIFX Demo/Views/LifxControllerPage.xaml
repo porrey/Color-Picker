@@ -91,7 +91,7 @@
 									  VerticalAlignment="Center"
 									  HorizontalAlignment="Center"
 									  BorderThickness="3"
-									  InnerDiameter="175"
+									  InnerDiameter=".55"
 									  BorderBrush="LightGray"
 									  Background="Transparent"
 									  CenterBackground="#aa121212"

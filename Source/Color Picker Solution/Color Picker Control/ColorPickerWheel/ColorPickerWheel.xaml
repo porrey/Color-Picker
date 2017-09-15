@@ -34,7 +34,7 @@
 
 	<Style TargetType="local:ColorPickerWheel">
 		<Setter Property="InnerDiameter"
-				Value="250" />
+				Value=".55" />
 		<Setter Property="BorderBrush"
 				Value="{StaticResource HueColorPickerBorderBrush}" />
 		<Setter Property="BorderThickness"
@@ -54,8 +54,8 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="local:ColorPickerWheel">
 					<Grid Name="RootGrid"
-						  Background="{TemplateBinding Background}"
-						  BorderBrush="{TemplateBinding BorderBrush}"
+						  Background="Transparent"
+						  BorderBrush="Transparent"
 						  BorderThickness="0">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
@@ -135,7 +135,7 @@
 									HorizontalAlignment="Center">
 								<Grid>
 									<Ellipse Name="PART_InnerCircle"
-											 Fill="{TemplateBinding CenterBackground}" />
+											 Fill="{TemplateBinding Background}" />
 								</Grid>
 							</Border>
 						</Border>
@@ -172,6 +172,8 @@
 						</Polygon>
 
 						<ContentPresenter Name="PART_Content"
+										  Width="{Binding ElementName=PART_Center, Path=Width}"
+										  Height="{Binding ElementName=PART_Center, Path=Height}"
 										  HorizontalAlignment="Center"
 										  VerticalAlignment="Center"
 										  AutomationProperties.AccessibilityView="Raw"

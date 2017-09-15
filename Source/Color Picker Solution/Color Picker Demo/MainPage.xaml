@@ -22,7 +22,6 @@
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="200" />
-			<ColumnDefinition Width="200" />
 		</Grid.ColumnDefinitions>
 
 		<!-- Color Values -->
@@ -196,52 +195,29 @@
 										  VerticalAlignment="Center"
 										  HorizontalAlignment="Center"
 										  BorderThickness="2"
-										  InnerDiameter=".75"
+										  InnerDiameter=".55"
 										  Hue="0"
-										  Luminosity=".5"
+										  Brightness="1.0"
 										  Saturation="1.0"
 										  BorderBrush="#bb000000"
-										  Background="Transparent"
-										  CenterBackground="{StaticResource CenterBackgroundBrush}"
+										  Background="{StaticResource CenterBackgroundBrush}"
 										  Margin="10"
 										  Padding="0"
 										  IndicatorOffset="0"
 										  IndicatorScale="1"
-										  IndicatorBackground="{StaticResource ButtonBackground}"
-										  SelectedColorChanged="ColorPicker_SelectedColorChanged">
+										  IndicatorBackground="{StaticResource ButtonBackground}">
 				<colorpicker:ColorPickerWheel.Content>
 					<colorpicker:TogglePowerSwitch x:Name="PowerSwitch"
 												   IsThreeState="False"
 												   IsChecked="False"
-												   Width="250"
 												   Foreground="#FF6E6E6E"
-												   Brightness="{Binding ElementName=Brightness, Path=Value,Converter={StaticResource PercentToDoubleConverter}}" />
+												   HorizontalAlignment="Center"
+												   VerticalAlignment="Center"
+												   Width="{Binding ElementName=ColorPicker, Path=ActualInnerDiameter}"
+												   Height="{Binding ElementName=ColorPicker, Path=ActualInnerDiameter}"
+												   Brightness="{Binding ElementName=ColorPicker, Path=Brightness}" />
 				</colorpicker:ColorPickerWheel.Content>
 			</colorpicker:ColorPickerWheel>
-		</Grid>
-
-		<!-- Brightness -->
-		<Grid Grid.Row="1"
-			  Grid.Column="1">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="50" />
-				<RowDefinition Height="*" />
-			</Grid.RowDefinitions>
-
-			<TextBlock Grid.Row="0"
-					   Text="Brightness"
-					   VerticalAlignment="Center"
-					   HorizontalAlignment="Center" 
-					   FontWeight="Medium"/>
-
-			<Slider x:Name="Brightness"
-					Grid.Row="1"
-					Orientation="Vertical"
-					HorizontalAlignment="Center"
-					Margin="15"
-					Minimum="0"
-					Maximum="100"
-					Value="100" />
 		</Grid>
 
 		<!-- Options -->
@@ -322,25 +298,26 @@
 						   Margin="0,0,0,10"
 						   FontWeight="Medium" />
 				<Button Grid.Row="7"
-						VerticalAlignment="Bottom"
-						HorizontalAlignment="Center"
+						VerticalAlignment="Stretch"
+						HorizontalAlignment="Stretch"
 						Content="Reset"
-						Width="100"
-						Height="50"
+						Margin="8"
 						BorderBrush="Black"
 						Click="Button_Click" />
 			</Grid>
 		</Border>
 
+		<!-- Sliders -->
 		<Grid Grid.Row="2"
 			  Grid.Column="0"
-			  Grid.ColumnSpan="3"
+			  Grid.ColumnSpan="2"
 			  Padding="10"
 			  Margin="10">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="150" />
 				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="150" />
+				<ColumnDefinition Width="119.5" />
+				<ColumnDefinition Width="30.5" />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="1*" />
@@ -349,28 +326,28 @@
 
 			<TextBlock Grid.Row="0"
 					   Grid.Column="0"
-					   Text="Luminosity"
+					   Text="Brightness"
 					   VerticalAlignment="Center"
 					   HorizontalAlignment="Left"
 					   FontWeight="Bold"
 					   FontSize="{StaticResource HeaderFontSize}"
-					   Margin="10" />
+					   Margin="20,37,0,17" />
 
 			<Slider Grid.Row="0"
 					Grid.Column="1"
 					Minimum="0"
 					Maximum="100"
-					Value="{Binding ElementName=ColorPicker,Path=Luminosity, Mode=TwoWay, Converter={StaticResource DoubleToPercentConverter}}"
-					Margin="50,20,50,20" />
+					Value="{Binding ElementName=ColorPicker,Path=Brightness, Mode=TwoWay, Converter={StaticResource DoubleToPercentConverter}}"
+					Margin="60,30,40,10" />
 
 			<TextBlock Grid.Row="0"
 					   Grid.Column="2"
-					   Text="{Binding ElementName=ColorPicker, Path=Luminosity,Mode=OneWay, Converter={StaticResource DoubleToStringPercentConverter}}"
+					   Text="{Binding ElementName=ColorPicker, Path=Brightness,Mode=OneWay, Converter={StaticResource DoubleToStringPercentConverter}}"
 					   FontWeight="Light"
 					   FontSize="{StaticResource HeaderFontSize}"
 					   VerticalAlignment="Center"
 					   HorizontalAlignment="Center"
-					   Margin="10" />
+					   Margin="61,37,10.5,17" />
 
 			<TextBlock Grid.Row="1"
 					   Grid.Column="0"
@@ -379,14 +356,14 @@
 					   HorizontalAlignment="Left"
 					   FontWeight="Bold"
 					   FontSize="{StaticResource HeaderFontSize}"
-					   Margin="10" />
+					   Margin="20,37,0,17" />
 
 			<Slider Grid.Row="1"
 					Grid.Column="1"
 					Minimum="0"
 					Maximum="100"
 					Value="{Binding ElementName=ColorPicker,Path=Saturation, Mode=TwoWay, Converter={StaticResource DoubleToPercentConverter}}"
-					Margin="50,20,50,20" />
+					Margin="60,30,40,10" />
 
 			<TextBlock Grid.Row="1"
 					   Grid.Column="2"
@@ -395,8 +372,7 @@
 					   FontSize="{StaticResource HeaderFontSize}"
 					   VerticalAlignment="Center"
 					   HorizontalAlignment="Center"
-					   Margin="10" />
+					   Margin="61,37,10.5,17" />
 		</Grid>
-
 	</Grid>
 </Page>

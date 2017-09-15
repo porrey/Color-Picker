@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -8,7 +9,18 @@ using Windows.UI.Xaml.Shapes;
 
 namespace Porrey.Controls.ColorPicker
 {
-	[TemplateVisualState(Name = "Normal", GroupName = "CommonStates")]
+	[TemplateVisualState(Name = "UncheckedNormal", GroupName = "CombinedStates")]
+	[TemplateVisualState(Name = "UncheckedPointerOver", GroupName = "CombinedStates")]
+	[TemplateVisualState(Name = "UncheckedPressed", GroupName = "CombinedStates")]
+	[TemplateVisualState(Name = "UncheckedDisabled", GroupName = "CombinedStates")]
+	[TemplateVisualState(Name = "CheckedNormal", GroupName = "CombinedStates")]
+	[TemplateVisualState(Name = "CheckedPointerOver", GroupName = "CombinedStates")]
+	[TemplateVisualState(Name = "CheckedPressed", GroupName = "CombinedStates")]
+	[TemplateVisualState(Name = "CheckedDisabled", GroupName = "CombinedStates")]
+	[TemplateVisualState(Name = "IndeterminateNormal", GroupName = "CombinedStates")]
+	[TemplateVisualState(Name = "IndeterminatePointerOver", GroupName = "CombinedStates")]
+	[TemplateVisualState(Name = "IndeterminatePressed", GroupName = "CombinedStates")]
+	[TemplateVisualState(Name = "IndeterminateDisabled", GroupName = "CombinedStates")]
 	[TemplatePart(Name = "PART_OuterBorder", Type = typeof(Border))]
 	[TemplatePart(Name = "PART_LightColor", Type = typeof(Ellipse))]
 	[TemplatePart(Name = "PART_Icon", Type = typeof(BitmapIcon))]
@@ -18,6 +30,17 @@ namespace Porrey.Controls.ColorPicker
 		public TogglePowerSwitch()
 		{
 			this.DefaultStyleKey = typeof(TogglePowerSwitch);
+			this.SizeChanged += this.TogglePowerSwitch_SizeChanged;
+		}
+
+		private void TogglePowerSwitch_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			if (this.OuterBorder != null)
+			{
+				this.OuterBorder.Width = e.NewSize.Width;
+				this.OuterBorder.Height = e.NewSize.Height;
+				this.OuterBorder.CornerRadius =new CornerRadius(e.NewSize.Width);
+			}
 		}
 
 		public static readonly DependencyProperty BrightnessProperty = DependencyProperty.Register("Brightness", typeof(double), typeof(TogglePowerSwitch), new PropertyMetadata(.5, new PropertyChangedCallback(OnBrightnessPropertyChanged)));
@@ -38,7 +61,6 @@ namespace Porrey.Controls.ColorPicker
 						instance.GlowTransform.ScaleX = .5 + (instance.Brightness / 2.0);
 						instance.GlowTransform.ScaleY = .5 + (instance.Brightness / 2.0);
 					}
-					//instance.RaiseBrightnessChangedEvent(Convert.ToDouble(e.OldValue), Convert.ToDouble(e.NewValue));
 				}
 				else
 				{
@@ -67,10 +89,16 @@ namespace Porrey.Controls.ColorPicker
 				this.GlowTransform = transform;
 			}
 
+			if (this.GetTemplateChild("PART_OuterBorder") is Border border)
+			{
+				this.OuterBorder = border;
+			}
+
 			base.OnApplyTemplate();
 		}
 		#endregion
 
 		protected ScaleTransform GlowTransform { get; set; }
+		protected Border OuterBorder { get; set; }
 	}
 }
