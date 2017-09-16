@@ -53,13 +53,11 @@ namespace Porrey.Controls.ColorPicker
 				{
 					if (instance.Brightness == 0)
 					{
-						instance.GlowTransform.ScaleX = 0;
-						instance.GlowTransform.ScaleY = 0;
+						instance.Glow.Opacity = 0;
 					}
 					else
 					{
-						instance.GlowTransform.ScaleX = .5 + (instance.Brightness / 2.0);
-						instance.GlowTransform.ScaleY = .5 + (instance.Brightness / 2.0);
+						instance.Glow.Opacity = .5 + (instance.Brightness / 2.0);
 					}
 				}
 				else
@@ -84,21 +82,21 @@ namespace Porrey.Controls.ColorPicker
 		#region Control Event Handlers
 		protected override void OnApplyTemplate()
 		{
-			if (this.GetTemplateChild("PART_GlowTransform") is ScaleTransform transform)
-			{
-				this.GlowTransform = transform;
-			}
-
 			if (this.GetTemplateChild("PART_OuterBorder") is Border border)
 			{
 				this.OuterBorder = border;
+			}
+
+			if (this.GetTemplateChild("PART_Glow") is Ellipse glow)
+			{
+				this.Glow = glow;
 			}
 
 			base.OnApplyTemplate();
 		}
 		#endregion
 
-		protected ScaleTransform GlowTransform { get; set; }
 		protected Border OuterBorder { get; set; }
+		protected Ellipse Glow { get; set; }
 	}
 }

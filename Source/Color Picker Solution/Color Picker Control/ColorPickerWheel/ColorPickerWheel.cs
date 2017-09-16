@@ -1,6 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Windows;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -16,10 +14,11 @@ namespace Porrey.Controls.ColorPicker
 	[TemplateVisualState(Name = "Disabled", GroupName = "CommonStates")]
 	[TemplateVisualState(Name = "PointerOver", GroupName = "CommonStates")]
 	[TemplateVisualState(Name = "Pressed", GroupName = "CommonStates")]
+	[TemplateVisualState(Name = "Inertia", GroupName = "CommonStates")]
 	[TemplatePart(Name = "PART_Rotary", Type = typeof(Border))]
 	[TemplatePart(Name = "PART_Center", Type = typeof(Border))]
 	[TemplatePart(Name = "PART_Indicator", Type = typeof(Polygon))]
-	[TemplatePart(Name = "PART_IndicatorBorder", Type = typeof(Polygon))]
+	[TemplatePart(Name = "PART_IndicatorOutline", Type = typeof(Polygon))]
 	[TemplatePart(Name = "PART_Content", Type = typeof(Polygon))]
 	[ContentProperty(Name = "Content")]
 	public class ColorPickerWheel : ContentControl
@@ -41,17 +40,31 @@ namespace Porrey.Controls.ColorPicker
 		{
 			if (this.Rotary != null)
 			{
-				this.Rotary.Width = size.Width;
-				this.Rotary.Height = size.Height;
-				this.Rotary.CornerRadius = new CornerRadius(size.Width);
+				double outerDiameter = this.GetOuterDiameter(size);
+				this.Rotary.Width = outerDiameter;
+				this.Rotary.Height = outerDiameter;
+				this.Rotary.CornerRadius = new CornerRadius(outerDiameter);
 
+				double innerDiameter = this.GetInnerDiameter(outerDiameter);
 				if (this.Center != null)
 				{
-					double innerDiameter = this.GetInnerDiameter(size.Width);
 					this.Center.Width = innerDiameter;
 					this.Center.Height = innerDiameter;
 					this.Center.CornerRadius = new CornerRadius(innerDiameter);
 					this.ActualInnerDiameter = innerDiameter;
+				}
+
+				if (this.Indicator != null)
+				{
+					this.Indicator.Width = (outerDiameter = innerDiameter) / 2.5;
+					this.Indicator.Height = this.Indicator.Width / 2.0;
+
+					this.IndicatorOutline.Width = this.Indicator.Width;
+					this.IndicatorOutline.Height = this.Indicator.Height;
+
+					double offset = -1 * (outerDiameter - this.Indicator.Height + this.IndicatorOffset);
+					((TranslateTransform)this.Indicator.RenderTransform).Y = offset;
+					((TranslateTransform)this.IndicatorOutline.RenderTransform).Y = offset;
 				}
 			}
 		}
@@ -64,11 +77,11 @@ namespace Porrey.Controls.ColorPicker
 			{
 				if (containerSize.Width < containerSize.Height)
 				{
-					returnValue = containerSize.Width - (this.Padding.Left + this.Padding.Right) - 10.0;
+					returnValue = containerSize.Width - (this.Padding.Left + this.Padding.Right) - 50.0;
 				}
 				else
 				{
-					returnValue = containerSize.Height - (this.Padding.Top + this.Padding.Bottom) - 10.0;
+					returnValue = containerSize.Height - (this.Padding.Top + this.Padding.Bottom) - 50.0;
 				}
 			}
 
@@ -103,16 +116,14 @@ namespace Porrey.Controls.ColorPicker
 
 		protected override Size MeasureOverride(Size availableSize)
 		{
-			return this.GetOuterDiameterSize(availableSize);
+			return availableSize;
 		}
 		#endregion
 
 		#region Dependency Properties
 		public static readonly DependencyProperty InnerDiameterProperty = DependencyProperty.Register("InnerDiameter", typeof(double), typeof(ColorPickerWheel), new PropertyMetadata(.55, new PropertyChangedCallback(OnInnerDiameterPropertyChanged)));
 		public static readonly DependencyProperty ActualInnerDiameterProperty = DependencyProperty.Register("ActualInnerDiameter", typeof(double), typeof(ColorPickerWheel), new PropertyMetadata(.55, new PropertyChangedCallback(OnActualInnerDiameterPropertyChanged)));
-		public static readonly DependencyProperty CenterBackgroundProperty = DependencyProperty.Register("CenterBackground", typeof(Brush), typeof(ColorPickerWheel), new PropertyMetadata(null, new PropertyChangedCallback(OnCenterBackgroundPropertyChanged)));
 		public static readonly DependencyProperty IndicatorBackgroundProperty = DependencyProperty.Register("IndicatorBackground", typeof(Brush), typeof(ColorPickerWheel), new PropertyMetadata(null, new PropertyChangedCallback(OnIndicatorBackgroundPropertyChanged)));
-		public static readonly DependencyProperty IndicatorScaleProperty = DependencyProperty.Register("IndicatorScale", typeof(double), typeof(ColorPickerWheel), new PropertyMetadata(1.0, new PropertyChangedCallback(OnIndicatorScalePropertyChanged)));
 		public static readonly DependencyProperty IndicatorOffsetProperty = DependencyProperty.Register("IndicatorOffset", typeof(double), typeof(ColorPickerWheel), new PropertyMetadata(0, new PropertyChangedCallback(OnIndicatorOffsetPropertyChanged)));
 		public static readonly DependencyProperty RotationProperty = DependencyProperty.Register("Rotation", typeof(double), typeof(ColorPickerWheel), new PropertyMetadata(0.0, new PropertyChangedCallback(OnRotationPropertyChanged)));
 		public static readonly DependencyProperty HueProperty = DependencyProperty.Register("Hue", typeof(int), typeof(ColorPickerWheel), new PropertyMetadata(0, new PropertyChangedCallback(OnHuePropertyChanged)));
@@ -125,9 +136,7 @@ namespace Porrey.Controls.ColorPicker
 		#region Public Events
 		public event EventHandler<ValueChangedEventArgs<double>> InnerDiameterChanged = null;
 		public event EventHandler<ValueChangedEventArgs<double>> ActualInnerDiameterChanged = null;
-		public event EventHandler<ValueChangedEventArgs<Brush>> CenterBackgroundChanged = null;
 		public event EventHandler<ValueChangedEventArgs<Brush>> IndicatorBackgroundChanged = null;
-		public event EventHandler<ValueChangedEventArgs<double>> IndicatorScaleChanged = null;
 		public event EventHandler<ValueChangedEventArgs<double>> IndicatorOffsetChanged = null;
 		public event EventHandler<ValueChangedEventArgs<double>> RotationChanged = null;
 		public event EventHandler<ValueChangedEventArgs<int>> HueChanged = null;
@@ -151,21 +160,10 @@ namespace Porrey.Controls.ColorPicker
 		{
 			ValueChangedEventArgs<double> e = new ValueChangedEventArgs<double>(previousValue, newValue);
 			this.OnActualInnerDiameterChangedEvent(this, e);
-			this.InnerDiameterChanged?.Invoke(this, e);
+			this.ActualInnerDiameterChanged?.Invoke(this, e);
 		}
 
 		protected virtual void OnActualInnerDiameterChangedEvent(object sender, ValueChangedEventArgs<double> e)
-		{
-		}
-
-		protected virtual void RaiseCenterBackgroundChangedEvent(Brush previousValue, Brush newValue)
-		{
-			ValueChangedEventArgs<Brush> e = new ValueChangedEventArgs<Brush>(previousValue, newValue);
-			this.OnCenterBackgroundChangedEvent(this, e);
-			this.CenterBackgroundChanged?.Invoke(this, e);
-		}
-
-		protected virtual void OnCenterBackgroundChangedEvent(object sender, ValueChangedEventArgs<Brush> e)
 		{
 		}
 
@@ -178,18 +176,6 @@ namespace Porrey.Controls.ColorPicker
 
 		protected virtual void OnIndicatorBackgroundChangedEvent(object sender, ValueChangedEventArgs<Brush> e)
 		{
-		}
-
-		protected virtual void RaiseIndicatorScaleChangedEvent(double previousValue, double newValue)
-		{
-			ValueChangedEventArgs<double> e = new ValueChangedEventArgs<double>(previousValue, newValue);
-			this.OnIndicatorScaleChangedEvent(this, e);
-			this.IndicatorScaleChanged?.Invoke(this, e);
-		}
-
-		protected virtual void OnIndicatorScaleChangedEvent(object sender, ValueChangedEventArgs<double> e)
-		{
-
 		}
 
 		protected virtual void RaiseIndicatorOffsetChangedEvent(double previousValue, double newValue)
@@ -297,27 +283,11 @@ namespace Porrey.Controls.ColorPicker
 			}
 		}
 
-		private static void OnCenterBackgroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			if (d is ColorPickerWheel instance)
-			{
-				instance.RaiseCenterBackgroundChangedEvent((Brush)e.OldValue, (Brush)e.NewValue);
-			}
-		}
-
 		private static void OnIndicatorBackgroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			if (d is ColorPickerWheel instance)
 			{
 				instance.RaiseIndicatorBackgroundChangedEvent((Brush)e.OldValue, (Brush)e.NewValue);
-			}
-		}
-
-		private static void OnIndicatorScalePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			if (d is ColorPickerWheel instance)
-			{
-				instance.RaiseIndicatorScaleChangedEvent(Convert.ToDouble(e.OldValue), Convert.ToDouble(e.NewValue));
 			}
 		}
 
@@ -438,20 +408,14 @@ namespace Porrey.Controls.ColorPicker
 				this.Center.Tapped += this.Center_Tapped;
 			}
 
-			if (this.GetTemplateChild("PART_Indicator") is Polygon indicator)
+			if (this.GetTemplateChild("PART_Indicator") is IndicatorArrow indicator)
 			{
-				this.IndicatorTransform = (CompositeTransform)indicator.RenderTransform;
-				this.IndicatorTransform.ScaleX = this.IndicatorScale;
-				this.IndicatorTransform.ScaleY = this.IndicatorScale;
-				this.IndicatorTransform.TranslateY = this.IndicatorOffset;
+				this.Indicator = indicator;
 			}
 
-			if (this.GetTemplateChild("PART_IndicatorBorder") is Polygon indicatorBorder)
+			if (this.GetTemplateChild("PART_IndicatorOutline") is IndicatorArrow indicatorOutline)
 			{
-				this.IndicatorTransform = (CompositeTransform)indicatorBorder.RenderTransform;
-				this.IndicatorTransform.ScaleX = this.IndicatorScale;
-				this.IndicatorTransform.ScaleY = this.IndicatorScale;
-				this.IndicatorTransform.TranslateY = this.IndicatorOffset;
+				this.IndicatorOutline = indicatorOutline;
 			}
 
 			// ***
@@ -575,7 +539,8 @@ namespace Porrey.Controls.ColorPicker
 		protected Border Center { get; set; }
 		protected RotateTransform RotateTransform { get; set; }
 		protected Brush GradientBrush { get; set; }
-		protected CompositeTransform IndicatorTransform { get; set; }
+		protected IndicatorArrow Indicator { get; set; }
+		protected IndicatorArrow IndicatorOutline { get; set; }
 
 		protected void SetManipulationMode()
 		{
@@ -617,18 +582,6 @@ namespace Porrey.Controls.ColorPicker
 			protected set
 			{
 				SetValue(ActualInnerDiameterProperty, value);
-			}
-		}
-
-		public Brush CenterBackground
-		{
-			get
-			{
-				return (Brush)GetValue(CenterBackgroundProperty);
-			}
-			set
-			{
-				SetValue(CenterBackgroundProperty, value);
 			}
 		}
 
@@ -704,18 +657,6 @@ namespace Porrey.Controls.ColorPicker
 			}
 		}
 
-		public double IndicatorScale
-		{
-			get
-			{
-				return (double)GetValue(IndicatorScaleProperty);
-			}
-			set
-			{
-				SetValue(IndicatorScaleProperty, value);
-			}
-		}
-
 		public double IndicatorOffset
 		{
 			get
@@ -752,7 +693,7 @@ namespace Porrey.Controls.ColorPicker
 		{
 			this.Hue = 0;
 			this.Saturation = 1.0;
-			this.Brightness = .5;
+			this.Brightness = 1.0;
 		}
 		#endregion
 	}

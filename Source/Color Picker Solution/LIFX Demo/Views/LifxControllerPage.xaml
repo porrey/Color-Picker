@@ -93,14 +93,18 @@
 									  BorderThickness="3"
 									  InnerDiameter=".55"
 									  BorderBrush="LightGray"
-									  Background="Transparent"
-									  CenterBackground="#aa121212"
+									  Background="#ddffffff"
 									  IndicatorBackground="#aa121212"
 									  Hue="{Binding SelectedItem.Hue, Mode=TwoWay}">
 			<colorpicker:ColorPickerWheel.Content>
-				<ToggleSwitch Header="Power"
-							  Margin="0,0,-75,0"
-							  IsOn="{Binding SelectedItem.IsOn, Mode=TwoWay}" />
+				<colorpicker:TogglePowerSwitch x:Name="PowerSwitch"
+											   IsChecked="{Binding SelectedItem.IsOn, Mode=TwoWay}"
+											   Foreground="#FF6E6E6E"
+											   HorizontalAlignment="Center"
+											   VerticalAlignment="Center"
+											   Width="{Binding ElementName=ColorPicker, Path=ActualInnerDiameter}"
+											   Height="{Binding ElementName=ColorPicker, Path=ActualInnerDiameter}"
+											   Brightness="{Binding ElementName=ColorPicker, Path=Brightness}" />
 			</colorpicker:ColorPickerWheel.Content>
 		</colorpicker:ColorPickerWheel>
 

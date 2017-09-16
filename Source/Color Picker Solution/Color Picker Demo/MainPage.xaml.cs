@@ -48,7 +48,6 @@ namespace ColorPickerDemo
 		public double GreenPercent => this.Green.Color.G / 255.0;
 		public double BluePercent => this.Blue.Color.B / 255.0;
 
-
 		public SolidColorBrush FontColor
 		{
 			get

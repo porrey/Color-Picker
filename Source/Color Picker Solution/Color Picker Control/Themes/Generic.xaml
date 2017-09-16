@@ -3,5 +3,6 @@
 	<ResourceDictionary.MergedDictionaries>
 		<ResourceDictionary Source="ms-appx:///Porrey.Controls.ColorPicker/ColorPickerWheel/ColorPickerWheel.xaml" />
 		<ResourceDictionary Source="ms-appx:///Porrey.Controls.ColorPicker/TogglePowerSwitch/TogglePowerSwitch.xaml" />
+		<ResourceDictionary Source="ms-appx:///Porrey.Controls.ColorPicker/IndicatorArrow/IndicatorArrow.xaml" />
 	</ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

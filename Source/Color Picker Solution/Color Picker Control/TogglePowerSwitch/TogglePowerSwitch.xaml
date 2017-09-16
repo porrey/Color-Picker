@@ -133,19 +133,15 @@
 										 Opacity=".35"
 										 VerticalAlignment="Stretch"
 										 HorizontalAlignment="Stretch"
+										 Margin="1.5"
 										 RenderTransformOrigin="0.5, 0.5">
-									<Ellipse.RenderTransform>
-										<ScaleTransform x:Name="PART_GlowTransform"
-														ScaleX="1.0"
-														ScaleY="1.0" />
-									</Ellipse.RenderTransform>
 									<Ellipse.Fill>
 										<LinearGradientBrush EndPoint="0.5,0"
 															 StartPoint="0.5,1">
-											<GradientStop Color="{Binding ElementName=PART_OuterBorder, Path=Background.Color}"
+											<GradientStop Color="Transparent"
 														  Offset="0" />
-											<GradientStop Color="{Binding ElementName=PART_OuterBorder, Path=Background.Color}"
-														  Offset=".5" />
+											<GradientStop Color="Transparent"
+														  Offset=".35" />
 											<GradientStop Color="{Binding ElementName=ColorPicker, Path=SelectedColor.Color}"
 														  Offset="1" />
 										</LinearGradientBrush>

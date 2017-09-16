@@ -15,7 +15,16 @@
 					 Color="#bb000000" />
 
 	<SolidColorBrush x:Key="HueColorPickerIndicatorBackgroundPressed"
-					 Color="Transparent" />
+					 Color="#bb151515" />
+
+	<SolidColorBrush x:Key="HueColorPickerIndicatorBorderPressed"
+					 Color="Black" />
+
+	<SolidColorBrush x:Key="HueColorPickerIndicatorBackgroundActive"
+					 Color="#88151515" />
+
+	<SolidColorBrush x:Key="HueColorPickerIndicatorBackgroundInactive"
+					 Color="#cc151515" />
 
 	<x:Double x:Key="HueColorPickerRotaryOpactityNormal">.8</x:Double>
 
@@ -41,14 +50,10 @@
 				Value="2" />
 		<Setter Property="Background"
 				Value="{StaticResource HueColorPickerBackground}" />
-		<Setter Property="CenterBackground"
-				Value="{StaticResource HueColorPickerCenterBackground}" />
-		<Setter Property="IndicatorOffset"
-				Value="0" />
-		<Setter Property="IndicatorScale"
-				Value="1.0" />
 		<Setter Property="IndicatorBackground"
-				Value="{StaticResource ButtonBackground}" />
+				Value="{StaticResource HueColorPickerIndicatorBackgroundInactive}" />
+		<Setter Property="IndicatorOffset"
+				Value="8" />
 
 		<Setter Property="Template">
 			<Setter.Value>
@@ -61,7 +66,7 @@
 							<VisualStateGroup x:Name="CommonStates">
 								<VisualState x:Name="Normal">
 									<Storyboard>
-										<FadeOutThemeAnimation  Storyboard.TargetName="PART_Indicator" />
+										<FadeOutThemeAnimation Storyboard.TargetName="PART_Indicator" />
 									</Storyboard>
 								</VisualState>
 
@@ -77,10 +82,10 @@
 
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
-										<Setter Target="PART_Indicator.Fill"
+										<Setter Target="PART_Indicator.Background"
 												Value="{StaticResource HueColorPickerIndicatorBackgroundPressed}" />
-										<Setter Target="PART_Indicator.Stroke"
-												Value="Black" />
+										<Setter Target="PART_Indicator.BorderBrush"
+												Value="{StaticResource HueColorPickerIndicatorBorderPressed}" />
 										<Setter Target="PART_Rotary.Border.Background.Opacity"
 												Value="{StaticResource HueColorPickerRotaryOpactityPressed}" />
 									</VisualState.Setters>
@@ -92,9 +97,11 @@
 												Value="{StaticResource HueColorPickerRotaryBorderDisabled}" />
 										<Setter Target="PART_Rotary.Background"
 												Value="{StaticResource HueColorPickerRotaryBackgroundDisabled}" />
-										<Setter Target="PART_Indicator.Fill"
+										<Setter Target="PART_Indicator.Background"
 												Value="{StaticResource HueColorPickerIndicatorBackgroundDisabled}" />
 										<Setter Target="PART_Indicator.Visibility"
+												Value="Collapsed" />
+										<Setter Target="PART_IndicatorOutline.Visibility"
 												Value="Collapsed" />
 									</VisualState.Setters>
 								</VisualState>
@@ -140,36 +147,27 @@
 							</Border>
 						</Border>
 
-						<Polygon Name="PART_Indicator"
-								 Points="0,0 60,0 30,40"
-								 Stroke="{TemplateBinding BorderBrush}"
-								 StrokeThickness="{TemplateBinding BorderThickness}"
-								 Fill="{TemplateBinding IndicatorBackground}"
-								 VerticalAlignment="Top"
-								 HorizontalAlignment="Center"
-								 RenderTransformOrigin="0.5, 0.5">
-							<Polygon.RenderTransform>
-								<CompositeTransform ScaleX="{TemplateBinding IndicatorScale}"
-													ScaleY="{TemplateBinding IndicatorScale}"
-													TranslateY="{TemplateBinding IndicatorOffset}" />
-							</Polygon.RenderTransform>
-						</Polygon>
+						<local:IndicatorArrow Name="PART_IndicatorOutline"
+											  Background="{TemplateBinding IndicatorBackground}"
+											  BorderBrush="{TemplateBinding BorderBrush}"
+											  BorderThickness="{TemplateBinding BorderThickness}"
+											  VerticalAlignment="Center"
+											  HorizontalAlignment="Center">
+							<local:IndicatorArrow.RenderTransform>
+								<TranslateTransform Y="0" />
+							</local:IndicatorArrow.RenderTransform>
+						</local:IndicatorArrow>
 
-						<Polygon Name="PART_IndicatorBorder"
-								 Points="0,0 60,0 30,40"
-								 Stroke="{TemplateBinding BorderBrush}"
-								 StrokeThickness="{TemplateBinding BorderThickness}"
-								 Fill="Transparent"
-								 VerticalAlignment="Top"
-								 HorizontalAlignment="Center"
-								 RenderTransformOrigin="0.5, 0.5"
-								 Opacity=".35">
-							<Polygon.RenderTransform>
-								<CompositeTransform ScaleX="{TemplateBinding IndicatorScale}"
-													ScaleY="{TemplateBinding IndicatorScale}"
-													TranslateY="{TemplateBinding IndicatorOffset}" />
-							</Polygon.RenderTransform>
-						</Polygon>
+						<local:IndicatorArrow Name="PART_Indicator"
+											  Background="{StaticResource HueColorPickerIndicatorBackgroundActive}"
+											  BorderBrush="{TemplateBinding BorderBrush}"
+											  BorderThickness="{TemplateBinding BorderThickness}"
+											  VerticalAlignment="Center"
+											  HorizontalAlignment="Center">
+							<local:IndicatorArrow.RenderTransform>
+								<TranslateTransform Y="0" />
+							</local:IndicatorArrow.RenderTransform>
+						</local:IndicatorArrow>
 
 						<ContentPresenter Name="PART_Content"
 										  Width="{Binding ElementName=PART_Center, Path=Width}"

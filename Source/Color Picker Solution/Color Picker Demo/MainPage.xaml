@@ -4,6 +4,7 @@
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:colorpicker="using:Porrey.Controls.ColorPicker"
+	  RequestedTheme="Light"
 	  mc:Ignorable="d">
 
 	<Page.Resources>
@@ -199,16 +200,13 @@
 										  Hue="0"
 										  Brightness="1.0"
 										  Saturation="1.0"
-										  BorderBrush="#bb000000"
+										  BorderBrush="#99000000"
 										  Background="{StaticResource CenterBackgroundBrush}"
-										  Margin="10"
-										  Padding="0"
-										  IndicatorOffset="0"
-										  IndicatorScale="1"
-										  IndicatorBackground="{StaticResource ButtonBackground}">
+										  IndicatorBackground="{StaticResource ButtonBackground}"
+										  SelectedColorChanged="ColorPicker_SelectedColorChanged">
 				<colorpicker:ColorPickerWheel.Content>
 					<colorpicker:TogglePowerSwitch x:Name="PowerSwitch"
-												   IsThreeState="False"
+												   Padding="25"
 												   IsChecked="False"
 												   Foreground="#FF6E6E6E"
 												   HorizontalAlignment="Center"
