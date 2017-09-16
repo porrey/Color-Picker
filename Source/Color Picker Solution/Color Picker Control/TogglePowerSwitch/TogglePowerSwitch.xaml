@@ -130,10 +130,6 @@
 								Opacity="{TemplateBinding Opacity}">
 							<Grid>
 								<Ellipse x:Name="PART_Glow"
-										 Opacity=".35"
-										 VerticalAlignment="Stretch"
-										 HorizontalAlignment="Stretch"
-										 Margin="1.5"
 										 RenderTransformOrigin="0.5, 0.5">
 									<Ellipse.Fill>
 										<LinearGradientBrush EndPoint="0.5,0"

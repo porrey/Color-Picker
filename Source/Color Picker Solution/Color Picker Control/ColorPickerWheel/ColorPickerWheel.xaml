@@ -59,9 +59,9 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="local:ColorPickerWheel">
 					<Grid Name="RootGrid"
-						  Background="Transparent"
-						  BorderBrush="Transparent"
-						  BorderThickness="0">
+						  Width="{TemplateBinding Width}"
+						  Height="{TemplateBinding Width}"
+						  Background="Transparent">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
 								<VisualState x:Name="Normal">
@@ -109,8 +109,6 @@
 						</VisualStateManager.VisualStateGroups>
 
 						<Border Name="PART_Rotary"
-								Width="{TemplateBinding Width}"
-								Height="{TemplateBinding Width}"
 								Margin="0"
 								BorderThickness="{TemplateBinding BorderThickness}"
 								BorderBrush="{TemplateBinding BorderBrush}"
@@ -171,6 +169,7 @@
 						</local:IndicatorArrow>
 
 						<ContentPresenter Name="PART_Content"
+										  Padding="{TemplateBinding Padding}"
 										  HorizontalAlignment="Center"
 										  VerticalAlignment="Center"
 										  AutomationProperties.AccessibilityView="Raw"

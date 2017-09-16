@@ -189,15 +189,12 @@
 
 		<!-- Color Picker -->
 		<Grid x:Name="Grid"
-			  Grid.Row="1"
-			  Grid.Column="0"
-			  BorderBrush="BlueViolet"
-			  BorderThickness="2">
+			  Grid.Row="1">
 			<colorpicker:ColorPickerWheel x:Name="ColorPicker"
 										  IsEnabled="True"
 										  VerticalAlignment="Center"
 										  HorizontalAlignment="Center"
-										  BorderThickness="2"
+										  BorderThickness="3"
 										  InnerDiameter=".55"
 										  Hue="0"
 										  Brightness="1.0"
@@ -208,8 +205,6 @@
 										  SelectedColorChanged="ColorPicker_SelectedColorChanged">
 				<colorpicker:ColorPickerWheel.Content>
 					<colorpicker:TogglePowerSwitch x:Name="PowerSwitch"
-												   Padding="0"
-												   IsChecked="False"
 												   Foreground="#FF6E6E6E"
 												   HorizontalAlignment="Center"
 												   VerticalAlignment="Center"

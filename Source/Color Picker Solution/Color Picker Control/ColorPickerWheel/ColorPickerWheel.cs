@@ -22,6 +22,8 @@ namespace Porrey.Controls.ColorPicker
 	[ContentProperty(Name = "Content")]
 	public class ColorPickerWheel : ContentControl
 	{
+		private bool _pointerEntered = false;
+
 		public ColorPickerWheel()
 		{
 			this.DefaultStyleKey = typeof(ColorPickerWheel);
@@ -51,9 +53,7 @@ namespace Porrey.Controls.ColorPicker
 					this.Center.Width = innerDiameter;
 					this.Center.Height = innerDiameter;
 					this.Center.CornerRadius = new CornerRadius(innerDiameter);
-
-					double borderThickness = (this.BorderThickness.Left + this.BorderThickness.Right + this.BorderThickness.Top + this.BorderThickness.Bottom) / 4.0;
-					this.ActualInnerDiameter = innerDiameter - borderThickness;
+					this.ActualInnerDiameter = innerDiameter - this.BorderThickness.Left + 1;
 				}
 
 				if (this.Indicator != null)
@@ -71,8 +71,8 @@ namespace Porrey.Controls.ColorPicker
 
 				if (this.ContentPresenter != null)
 				{
-					this.ContentPresenter.Width = innerDiameter - this.BorderThickness.Left;
-					this.ContentPresenter.Height = innerDiameter - this.BorderThickness.Left;
+					this.ContentPresenter.Width = this.ActualInnerDiameter;
+					this.ContentPresenter.Height = this.ActualInnerDiameter;
 					((TranslateTransform)this.ContentPresenter.RenderTransform).Y = this.RotaryCompositeTransform.TranslateY;
 				}
 			}
@@ -84,15 +84,15 @@ namespace Porrey.Controls.ColorPicker
 
 			if (this.Rotary != null)
 			{
-				Size innerSize = new Size(containerSize.Width - (this.Padding.Left + this.Padding.Right), containerSize.Height - (this.Padding.Top + this.Padding.Bottom));
+				Size innerSize = new Size(containerSize.Width - this.IndicatorOffset, containerSize.Height - this.IndicatorOffset);
 
 				if (innerSize.Width < innerSize.Height)
 				{
-					returnValue = innerSize.Width - this.IndicatorOffset;
+					returnValue = innerSize.Width;
 				}
 				else
 				{
-					returnValue = innerSize.Height - this.IndicatorOffset;
+					returnValue = innerSize.Height;
 				}
 			}
 
@@ -127,12 +127,21 @@ namespace Porrey.Controls.ColorPicker
 
 		protected override Size MeasureOverride(Size availableSize)
 		{
+			Size returnValue;
+
 			// ***
-			// *** If margin is specified, it is already remove from
+			// *** If margin is specified, it is already removed from
 			// *** availableSize.
 			// ***
-			double width = availableSize.Width < availableSize.Height ? availableSize.Width : availableSize.Height;
-			Size returnValue = new Size(width, width);
+			if (availableSize.Width < availableSize.Height)
+			{
+				returnValue = new Size(availableSize.Width, availableSize.Width);
+			}
+			else
+			{
+				returnValue = new Size(availableSize.Height, availableSize.Height);
+			}
+
 			return returnValue;
 		}
 		#endregion
@@ -408,6 +417,12 @@ namespace Porrey.Controls.ColorPicker
 				this.Rotary.ManipulationStarted += this.Rotary_ManipulationStarted;
 				this.Rotary.ManipulationDelta += this.Rotary_ManipulationDelta;
 				this.Rotary.Tapped += this.Rotary_Tapped;
+
+				this.Rotary.PointerEntered += this.Rotary_PointerEntered;
+				this.Rotary.PointerPressed += this.Rotary_PointerPressed;
+				this.Rotary.PointerExited += this.Rotary_PointerExited;
+				this.Rotary.PointerReleased += this.Rotary_PointerReleased;
+
 				this.SetManipulationMode();
 
 				this.RotaryCompositeTransform = ((CompositeTransform)this.Rotary.RenderTransform);
@@ -459,6 +474,40 @@ namespace Porrey.Controls.ColorPicker
 			this.ApplySelectedColor();
 		}
 
+		private void Rotary_PointerEntered(object sender, PointerRoutedEventArgs e)
+		{
+			_pointerEntered = true;
+			VisualStateManager.GoToState(this, "PointerOver", true);
+			base.OnPointerEntered(e);
+		}
+
+		private void Rotary_PointerPressed(object sender, PointerRoutedEventArgs e)
+		{
+			VisualStateManager.GoToState(this, "Pressed", true);
+			base.OnPointerPressed(e);
+		}
+
+		private void Rotary_PointerReleased(object sender, PointerRoutedEventArgs e)
+		{
+			if (_pointerEntered)
+			{
+				VisualStateManager.GoToState(this, "PointerOver", true);
+			}
+			else
+			{
+				VisualStateManager.GoToState(this, "Normal", true);
+			}
+
+			base.OnPointerReleased(e);
+		}
+
+		private void Rotary_PointerExited(object sender, PointerRoutedEventArgs e)
+		{
+			_pointerEntered = false;
+			VisualStateManager.GoToState(this, "Normal", true);
+			base.OnPointerExited(e);
+		}
+
 		private void Rotary_ManipulationStarting(object sender, ManipulationStartingRoutedEventArgs e)
 		{
 			FrameworkElement element = sender as FrameworkElement;
@@ -499,41 +548,6 @@ namespace Porrey.Controls.ColorPicker
 			// *** Don't allow tapping the center to change the color.
 			// ***
 			e.Handled = true;
-		}
-
-		private bool _pointerEntered = false;
-		protected override void OnPointerEntered(PointerRoutedEventArgs e)
-		{
-			_pointerEntered = true;
-			VisualStateManager.GoToState(this, "PointerOver", true);
-			base.OnPointerEntered(e);
-		}
-
-		protected override void OnPointerExited(PointerRoutedEventArgs e)
-		{
-			_pointerEntered = false;
-			VisualStateManager.GoToState(this, "Normal", true);
-			base.OnPointerExited(e);
-		}
-
-		protected override void OnPointerPressed(PointerRoutedEventArgs e)
-		{
-			VisualStateManager.GoToState(this, "Pressed", true);
-			base.OnPointerPressed(e);
-		}
-
-		protected override void OnPointerReleased(PointerRoutedEventArgs e)
-		{
-			if (_pointerEntered)
-			{
-				VisualStateManager.GoToState(this, "PointerOver", true);
-			}
-			else
-			{
-				VisualStateManager.GoToState(this, "Normal", true);
-			}
-
-			base.OnPointerReleased(e);
 		}
 
 		private void HueColorPicker_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
