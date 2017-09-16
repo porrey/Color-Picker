@@ -119,7 +119,8 @@
 								VerticalAlignment="Center"
 								HorizontalAlignment="Center">
 							<Border.RenderTransform>
-								<RotateTransform Angle="0" />
+								<CompositeTransform Rotation="0" 
+													TranslateY="0"/>
 							</Border.RenderTransform>
 							<Border.Background>
 								<ImageBrush Stretch="UniformToFill"
@@ -170,17 +171,17 @@
 						</local:IndicatorArrow>
 
 						<ContentPresenter Name="PART_Content"
-										  Width="{Binding ElementName=PART_Center, Path=Width}"
-										  Height="{Binding ElementName=PART_Center, Path=Height}"
 										  HorizontalAlignment="Center"
 										  VerticalAlignment="Center"
 										  AutomationProperties.AccessibilityView="Raw"
-										  Padding="{TemplateBinding Padding}"
 										  ContentTemplate="{TemplateBinding ContentTemplate}"
 										  ContentTransitions="{TemplateBinding ContentTransitions}"
 										  Content="{TemplateBinding Content}"
 										  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
 										  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+							<ContentPresenter.RenderTransform>
+								<TranslateTransform Y="0" />
+							</ContentPresenter.RenderTransform>
 						</ContentPresenter>
 					</Grid>
 				</ControlTemplate>

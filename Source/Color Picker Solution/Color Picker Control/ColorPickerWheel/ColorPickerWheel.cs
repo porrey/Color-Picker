@@ -14,7 +14,6 @@ namespace Porrey.Controls.ColorPicker
 	[TemplateVisualState(Name = "Disabled", GroupName = "CommonStates")]
 	[TemplateVisualState(Name = "PointerOver", GroupName = "CommonStates")]
 	[TemplateVisualState(Name = "Pressed", GroupName = "CommonStates")]
-	[TemplateVisualState(Name = "Inertia", GroupName = "CommonStates")]
 	[TemplatePart(Name = "PART_Rotary", Type = typeof(Border))]
 	[TemplatePart(Name = "PART_Center", Type = typeof(Border))]
 	[TemplatePart(Name = "PART_Indicator", Type = typeof(Polygon))]
@@ -44,6 +43,7 @@ namespace Porrey.Controls.ColorPicker
 				this.Rotary.Width = outerDiameter;
 				this.Rotary.Height = outerDiameter;
 				this.Rotary.CornerRadius = new CornerRadius(outerDiameter);
+				this.RotaryCompositeTransform.TranslateY = this.IndicatorOffset / 2.0;
 
 				double innerDiameter = this.GetInnerDiameter(outerDiameter);
 				if (this.Center != null)
@@ -51,7 +51,9 @@ namespace Porrey.Controls.ColorPicker
 					this.Center.Width = innerDiameter;
 					this.Center.Height = innerDiameter;
 					this.Center.CornerRadius = new CornerRadius(innerDiameter);
-					this.ActualInnerDiameter = innerDiameter;
+
+					double borderThickness = (this.BorderThickness.Left + this.BorderThickness.Right + this.BorderThickness.Top + this.BorderThickness.Bottom) / 4.0;
+					this.ActualInnerDiameter = innerDiameter - borderThickness;
 				}
 
 				if (this.Indicator != null)
@@ -62,9 +64,16 @@ namespace Porrey.Controls.ColorPicker
 					this.IndicatorOutline.Width = this.Indicator.Width;
 					this.IndicatorOutline.Height = this.Indicator.Height;
 
-					double offset = -1 * (outerDiameter - this.Indicator.Height + this.IndicatorOffset);
+					double offset = -1 * (outerDiameter - this.Indicator.Height + (this.IndicatorOffset / 2.0));
 					((TranslateTransform)this.Indicator.RenderTransform).Y = offset;
 					((TranslateTransform)this.IndicatorOutline.RenderTransform).Y = offset;
+				}
+
+				if (this.ContentPresenter != null)
+				{
+					this.ContentPresenter.Width = innerDiameter - this.BorderThickness.Left;
+					this.ContentPresenter.Height = innerDiameter - this.BorderThickness.Left;
+					((TranslateTransform)this.ContentPresenter.RenderTransform).Y = this.RotaryCompositeTransform.TranslateY;
 				}
 			}
 		}
@@ -75,13 +84,15 @@ namespace Porrey.Controls.ColorPicker
 
 			if (this.Rotary != null)
 			{
-				if (containerSize.Width < containerSize.Height)
+				Size innerSize = new Size(containerSize.Width - (this.Padding.Left + this.Padding.Right), containerSize.Height - (this.Padding.Top + this.Padding.Bottom));
+
+				if (innerSize.Width < innerSize.Height)
 				{
-					returnValue = containerSize.Width - (this.Padding.Left + this.Padding.Right) - 50.0;
+					returnValue = innerSize.Width - this.IndicatorOffset;
 				}
 				else
 				{
-					returnValue = containerSize.Height - (this.Padding.Top + this.Padding.Bottom) - 50.0;
+					returnValue = innerSize.Height - this.IndicatorOffset;
 				}
 			}
 
@@ -116,7 +127,13 @@ namespace Porrey.Controls.ColorPicker
 
 		protected override Size MeasureOverride(Size availableSize)
 		{
-			return availableSize;
+			// ***
+			// *** If margin is specified, it is already remove from
+			// *** availableSize.
+			// ***
+			double width = availableSize.Width < availableSize.Height ? availableSize.Width : availableSize.Height;
+			Size returnValue = new Size(width, width);
+			return returnValue;
 		}
 		#endregion
 
@@ -231,7 +248,6 @@ namespace Porrey.Controls.ColorPicker
 
 		protected virtual void OnBrightnessChangedEvent(object sender, ValueChangedEventArgs<double> e)
 		{
-
 		}
 
 		protected virtual void RaiseSelectedColorChangedEvent(SolidColorBrush previousValue, SolidColorBrush newValue)
@@ -304,7 +320,7 @@ namespace Porrey.Controls.ColorPicker
 			if (d is ColorPickerWheel instance)
 			{
 				double rotation = Convert.ToDouble(e.NewValue);
-				instance.RotateTransform.Angle = rotation % 360;
+				instance.RotaryCompositeTransform.Rotation = rotation % 360;
 				instance.Hue = rotation.GetHueFromRotation();
 
 				instance.RaiseRotationChangedEvent(Convert.ToDouble(e.OldValue), Convert.ToDouble(e.NewValue));
@@ -317,9 +333,9 @@ namespace Porrey.Controls.ColorPicker
 			{
 				if (instance.Hue >= 0 && instance.Hue <= 360)
 				{
-					if (instance.RotateTransform != null)
+					if (instance.RotaryCompositeTransform != null)
 					{
-						instance.RotateTransform.Angle = instance.Hue.GetRotationFromHue();
+						instance.RotaryCompositeTransform.Rotation = instance.Hue.GetRotationFromHue();
 						instance.ApplySelectedColor();
 						instance.RaiseHueChangedEvent(Convert.ToInt32(e.OldValue), Convert.ToInt32(e.NewValue));
 					}
@@ -394,8 +410,8 @@ namespace Porrey.Controls.ColorPicker
 				this.Rotary.Tapped += this.Rotary_Tapped;
 				this.SetManipulationMode();
 
-				this.RotateTransform = ((RotateTransform)this.Rotary.RenderTransform);
-				this.RotateTransform.Angle = this.Hue.GetRotationFromHue();
+				this.RotaryCompositeTransform = ((CompositeTransform)this.Rotary.RenderTransform);
+				this.RotaryCompositeTransform.Rotation = this.Hue.GetRotationFromHue();
 				this.GradientBrush = this.Rotary.Background;
 
 				this.ApplySelectedColor();
@@ -416,6 +432,11 @@ namespace Porrey.Controls.ColorPicker
 			if (this.GetTemplateChild("PART_IndicatorOutline") is IndicatorArrow indicatorOutline)
 			{
 				this.IndicatorOutline = indicatorOutline;
+			}
+
+			if (this.GetTemplateChild("PART_Content") is ContentPresenter contentPresenter)
+			{
+				this.ContentPresenter = contentPresenter;
 			}
 
 			// ***
@@ -537,10 +558,11 @@ namespace Porrey.Controls.ColorPicker
 
 		protected Border Rotary { get; set; }
 		protected Border Center { get; set; }
-		protected RotateTransform RotateTransform { get; set; }
+		protected CompositeTransform RotaryCompositeTransform { get; set; }
 		protected Brush GradientBrush { get; set; }
 		protected IndicatorArrow Indicator { get; set; }
 		protected IndicatorArrow IndicatorOutline { get; set; }
+		protected ContentPresenter ContentPresenter { get; set; }
 
 		protected void SetManipulationMode()
 		{
