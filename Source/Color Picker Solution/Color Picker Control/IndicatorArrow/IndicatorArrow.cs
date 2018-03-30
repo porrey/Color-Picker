@@ -15,16 +15,12 @@ namespace Porrey.Controls.ColorPicker
 
 		protected override void OnApplyTemplate()
 		{
+			base.OnApplyTemplate();
+
 			if (this.GetTemplateChild("PART_Triangle") is Polygon triangle)
 			{
 				this.Triangle = triangle;
 			}
-
-			//this.Background = new SolidColorBrush(Colors.Transparent);
-			//this.BorderBrush = new SolidColorBrush(Colors.Transparent);
-			//this.BorderThickness = new Thickness(0);
-
-			base.OnApplyTemplate();
 		}
 
 		private void Selector_SizeChanged(object sender, SizeChangedEventArgs e)

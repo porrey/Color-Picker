@@ -56,6 +56,7 @@ namespace LifxDemo.Models
 		public Task Lock()
 		{
 			_lock.EnterWriteLock();
+
 			try
 			{
 				_locked = true;
@@ -71,6 +72,7 @@ namespace LifxDemo.Models
 		public Task Unlock()
 		{
 			_lock.EnterWriteLock();
+
 			try
 			{
 				_locked = false;
@@ -106,8 +108,10 @@ namespace LifxDemo.Models
 		{
 			if (!await this.IsLocked())
 			{
+				System.Diagnostics.Debug.WriteLine("Not Locked");
+
 				// ***
-				// *** Must wait at least 50ms between calls.
+				// *** Must wait at least 50ms between calls per the documentation.
 				// ***
 				if (DateTime.Now.Subtract(this.LastCall) > this.Interval)
 				{
@@ -131,14 +135,17 @@ namespace LifxDemo.Models
 						// ***
 						this.LastSkippedAction = null;
 
-						// ***
-						// *** Start the timer; each time the time is started it will
-						// *** reset. This prevents the timer event from being fired until
-						// *** the full interval has elapsed. For example, if the timer
-						// *** interval is set to 1 second, and the Start() method is called
-						// *** 100 times in a second, the timer event will fire just once.
-						// ***
-						this.CallbackTimer.Start();
+						if (this.CallbackDelay != TimeSpan.Zero)
+						{
+							// ***
+							// *** Start the timer; each time the time is started it will
+							// *** reset. This prevents the timer event from being fired until
+							// *** the full interval has elapsed. For example, if the timer
+							// *** interval is set to 1 second, and the Start() method is called
+							// *** 100 times in a second, the timer event will fire just once.
+							// ***
+							this.CallbackTimer.Start();
+						}
 					}
 				}
 				else
@@ -148,6 +155,10 @@ namespace LifxDemo.Models
 					// ***
 					this.LastSkippedAction = action;
 				}
+			}
+			else
+			{
+				System.Diagnostics.Debug.WriteLine("LOCKED");
 			}
 		}
 

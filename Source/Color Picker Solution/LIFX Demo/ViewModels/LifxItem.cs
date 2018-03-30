@@ -19,7 +19,7 @@ namespace LifxDemo.ViewModels
 		{
 			this.Client = client;
 			this.LightBulb = lightBulb;
-			this.Limiter = new ApiRateLimiter(TimeSpan.FromMilliseconds(50), this.ApiLimiterCallback, TimeSpan.FromMilliseconds(500));
+			this.Limiter = new ApiRateLimiter(TimeSpan.FromMilliseconds(50), this.ApiLimiterCallback, TimeSpan.Zero);
 
 			this.Update().RunAsync();
 		}
@@ -84,6 +84,11 @@ namespace LifxDemo.ViewModels
 			}
 			set
 			{
+				if (this.Saturation == 0 && this.Kelvin != 0)
+				{
+					this.Limiter.ThrottleMethod(async () => { await this.SetSaturation(1.0); });
+				}
+
 				this.SetProperty(ref _hue, value);
 				this.Limiter.ThrottleMethod(async () => { await this.SetHue(_hue); });
 				this.SetColor();
@@ -130,7 +135,7 @@ namespace LifxDemo.ViewModels
 			set
 			{
 				this.SetProperty(ref _kelvin, value);
-				this.Limiter.ThrottleMethod(async () => { await this.SetKelvin(_kelvin); });
+				this.SetKelvin(_kelvin);
 				this.SetColor();
 			}
 		}
@@ -140,7 +145,7 @@ namespace LifxDemo.ViewModels
 			try
 			{
 				// ***
-				// *** locking the API limiter prevents all calls
+				// *** Locking the API limiter prevents all calls
 				// *** from being made.
 				// ***
 				await this.Limiter.Lock();
@@ -213,13 +218,14 @@ namespace LifxDemo.ViewModels
 			await this.Client.SetColorAsync(this.LightBulb, h, s, b, this.Kelvin, TimeSpan.Zero);
 		}
 
-		public async Task SetKelvin(ushort kelvin)
+		public Task SetKelvin(ushort kelvin)
 		{
 			ushort h = Lifx.Hue.ToLifx(this.Hue);
 			ushort s = Lifx.Saturation.ToLifx(this.Saturation);
 			ushort b = Lifx.Brightness.ToLifx(this.Brightness);
 
-			await this.Client.SetColorAsync(this.LightBulb, h, s, b, kelvin, TimeSpan.Zero);
+			this.Client.SetColorAsync(this.LightBulb, h, s, b, kelvin, TimeSpan.Zero);
+			return Task.FromResult(0);
 		}
 
 		public void Dispose()

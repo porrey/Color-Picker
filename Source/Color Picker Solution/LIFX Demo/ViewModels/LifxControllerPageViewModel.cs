@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using LifxDemo.Common;
 using LifxDemo.Events;
 using Prism.Events;
 using Windows.UI;
@@ -19,24 +18,27 @@ namespace LifxDemo.ViewModels
 		public LifxControllerPageViewModel()
 			: base(true)
 		{
-			Dictionary<string, ushort> items = new Dictionary<string, ushort>
+			WhiteItem[] whites = new WhiteItem[]
 			{
-				{"Ultra Warm", 2500 }, { "Incandescent", 2750}, {"Warm", 3000 }, {"Neutral Warm", 3200 },
-				{"Neutral", 3500 }, {"Cool", 4000 }, {"Cool Daylight", 4500 }, {"Soft Daylight", 5000 },
-				{"Daylight", 5500 }, {"Noon Daylight", 6000 }, {"Bright Daylight", 6500 }, {"Cloudy Daylight", 7000 },
-				{"Blue Daylight", 7500 }, {"Blue Overcast", 8000 }, {"Blue Water", 8500 }, {"Blue Ice", 9000 }
+				new WhiteItem() { Name = "Ultra Warm", Kelvin = 2500, Color = new SolidColorBrush(Color.FromArgb(255, 255, 222, 184)) },
+				new WhiteItem() { Name = "Incandescent", Kelvin = 2750, Color = new SolidColorBrush(Color.FromArgb(255, 255, 225, 184))},
+				new WhiteItem() { Name = "Warm", Kelvin = 3000 , Color = new SolidColorBrush(Color.FromArgb(255, 255, 228, 194))},
+				new WhiteItem() { Name = "Neutral Warm", Kelvin = 3200, Color = new SolidColorBrush(Color.FromArgb(255, 254, 229, 198)) },
+				new WhiteItem() { Name = "Neutral", Kelvin = 3500, Color = new SolidColorBrush(Color.FromArgb(255, 253, 229, 201)) },
+				new WhiteItem() { Name = "Cool", Kelvin = 4000, Color = new SolidColorBrush(Color.FromArgb(255, 255, 235, 210)) },
+				new WhiteItem() { Name = "Cool Daylight", Kelvin = 4500, Color = new SolidColorBrush(Color.FromArgb(255, 255, 239, 217)) },
+				new WhiteItem() { Name = "Soft Daylight", Kelvin = 5000, Color = new SolidColorBrush(Color.FromArgb(255, 254, 240, 220)) },
+				new WhiteItem() { Name = "Daylight", Kelvin = 5500, Color = new SolidColorBrush(Color.FromArgb(255, 253, 240, 225)) },
+				new WhiteItem() { Name = "Noon Daylight", Kelvin = 6000, Color = new SolidColorBrush(Color.FromArgb(255, 249, 242, 230)) },
+				new WhiteItem() { Name = "Bright Daylight", Kelvin = 6500, Color = new SolidColorBrush(Color.FromArgb(255, 246, 242, 235)) },
+				new WhiteItem() { Name = "Cloudy Daylight", Kelvin = 7000, Color = new SolidColorBrush(Color.FromArgb(255, 242, 240, 237)) },
+				new WhiteItem() { Name = "Blue Daylight", Kelvin = 7500, Color = new SolidColorBrush(Color.FromArgb(255, 236, 237, 238)) },
+				new WhiteItem() { Name = "Blue Overcast", Kelvin = 8000, Color = new SolidColorBrush(Color.FromArgb(255, 237, 241, 246)) },
+				new WhiteItem() { Name = "Blue Water", Kelvin = 8500, Color = new SolidColorBrush(Color.FromArgb(255, 235, 242, 249)) },
+				new WhiteItem() { Name = "Blue Ice", Kelvin = 9000, Color = new SolidColorBrush(Color.FromArgb(255, 235, 244, 253)) }
 			};
 
-
-			foreach (KeyValuePair<string, ushort> item in items)
-			{
-				double h = 33;
-				double s = 33.0 * (1 - ((double)item.Value / 9000.0)) / 100.0;
-				double b = 1.0;
-				Color color = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv(h, s, b);
-
-				this.WhiteItems.Add(new WhiteItem() { Name = $"{item.Key}", Color = new SolidColorBrush(color), Kelvin = item.Value });
-			}
+			this.WhiteItems.AddRange(whites);
 		}
 
 		public ObservableCollection<WhiteItem> WhiteItems { get; } = new ObservableCollection<WhiteItem>();
@@ -135,6 +137,7 @@ namespace LifxDemo.ViewModels
 
 				if (this.SelectedItem != null && !_setting)
 				{
+					this.SelectedItem.Saturation = 0;
 					this.SelectedItem.Kelvin = _selectedWhiteItem.Kelvin;
 				}
 			}

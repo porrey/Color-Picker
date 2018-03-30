@@ -95,6 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\CollectionExtensions.cs" />
     <Compile Include="Common\MagicString.cs" />
     <Compile Include="Common\TaskExtensions.cs" />
     <Compile Include="Converters\DoubleToPercentConverter.cs" />

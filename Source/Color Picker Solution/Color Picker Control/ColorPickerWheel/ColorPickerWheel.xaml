@@ -60,7 +60,7 @@
 				<ControlTemplate TargetType="local:ColorPickerWheel">
 					<Grid Name="RootGrid"
 						  Width="{TemplateBinding Width}"
-						  Height="{TemplateBinding Width}"
+						  Height="{TemplateBinding Height}"
 						  Background="Transparent">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
@@ -108,8 +108,38 @@
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
 
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="1*" />
+							<ColumnDefinition Width="1*" />
+							<ColumnDefinition Width="1*" />
+							<ColumnDefinition Width="1*" />
+							<ColumnDefinition Width="1*" />
+							<ColumnDefinition Width="1*" />
+							<ColumnDefinition Width="1*" />
+							<ColumnDefinition Width="1*" />
+							<ColumnDefinition Width="1*" />
+						</Grid.ColumnDefinitions>
+
+						<Grid.RowDefinitions>
+							<RowDefinition Height="1*" />
+							<RowDefinition Height="1*" />
+							<RowDefinition Height="1*" />
+							<RowDefinition Height="1*" />
+							<RowDefinition Height="1*" />
+							<RowDefinition Height="1*" />
+							<RowDefinition Height="1*" />
+							<RowDefinition Height="1*" />
+							<RowDefinition Height="1*" />
+						</Grid.RowDefinitions>
+
 						<Border Name="PART_Rotary"
+								Grid.Column="0"
+								Grid.ColumnSpan="9"
+								Grid.Row="0"
+								Grid.RowSpan="9"
 								Margin="0"
+								Width="{TemplateBinding ActualOuterDiameter}"
+								Height="{TemplateBinding ActualOuterDiameter}"
 								BorderThickness="{TemplateBinding BorderThickness}"
 								BorderBrush="{TemplateBinding BorderBrush}"
 								CornerRadius="{Binding ElementName=PART_Rotary, Path=Width, Converter={StaticResource DoubleToCornerRadiusConverter}}"
@@ -117,8 +147,8 @@
 								VerticalAlignment="Center"
 								HorizontalAlignment="Center">
 							<Border.RenderTransform>
-								<CompositeTransform Rotation="0" 
-													TranslateY="0"/>
+								<CompositeTransform Rotation="0"
+													TranslateY="0" />
 							</Border.RenderTransform>
 							<Border.Background>
 								<ImageBrush Stretch="UniformToFill"
@@ -138,7 +168,10 @@
 									BorderBrush="{Binding ElementName=PART_Rotary, Path=BorderBrush}"
 									BorderThickness="{Binding ElementName=PART_Rotary, Path=BorderThickness}"
 									VerticalAlignment="Center"
-									HorizontalAlignment="Center">
+									HorizontalAlignment="Center"
+									Width="{TemplateBinding ActualInnerDiameter}"
+									Height="{TemplateBinding ActualInnerDiameter}"
+									CornerRadius="{Binding ElementName=PART_Center, Path=Width, Converter={StaticResource DoubleToCornerRadiusConverter}}">
 								<Grid>
 									<Ellipse Name="PART_InnerCircle"
 											 Fill="{TemplateBinding Background}" />
@@ -147,28 +180,38 @@
 						</Border>
 
 						<local:IndicatorArrow Name="PART_IndicatorOutline"
+											  Grid.Column="4"
+											  Grid.Row="0"
 											  Background="{TemplateBinding IndicatorBackground}"
 											  BorderBrush="{TemplateBinding BorderBrush}"
 											  BorderThickness="{TemplateBinding BorderThickness}"
-											  VerticalAlignment="Center"
-											  HorizontalAlignment="Center">
+											  VerticalAlignment="Stretch"
+											  HorizontalAlignment="Stretch">
 							<local:IndicatorArrow.RenderTransform>
-								<TranslateTransform Y="0" />
+								<TranslateTransform Y="{TemplateBinding IndicatorOffset}" />
 							</local:IndicatorArrow.RenderTransform>
 						</local:IndicatorArrow>
 
 						<local:IndicatorArrow Name="PART_Indicator"
+											  Grid.Column="4"
+											  Grid.Row="0"
 											  Background="{StaticResource HueColorPickerIndicatorBackgroundActive}"
 											  BorderBrush="{TemplateBinding BorderBrush}"
 											  BorderThickness="{TemplateBinding BorderThickness}"
-											  VerticalAlignment="Center"
-											  HorizontalAlignment="Center">
+											  VerticalAlignment="Stretch"
+											  HorizontalAlignment="Stretch">
 							<local:IndicatorArrow.RenderTransform>
-								<TranslateTransform Y="0" />
+								<TranslateTransform Y="{TemplateBinding IndicatorOffset}" />
 							</local:IndicatorArrow.RenderTransform>
 						</local:IndicatorArrow>
 
 						<ContentPresenter Name="PART_Content"
+										  Grid.Column="0"
+										  Grid.ColumnSpan="9"
+										  Grid.Row="0"
+										  Grid.RowSpan="9"
+										  Width="{TemplateBinding ActualInnerDiameter}"
+										  Height="{TemplateBinding ActualInnerDiameter}"
 										  Padding="{TemplateBinding Padding}"
 										  HorizontalAlignment="Center"
 										  VerticalAlignment="Center"
