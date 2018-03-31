@@ -72,6 +72,10 @@ namespace LifxDemo.ViewModels
 				string message = this.ResourceLoader.GetString(MagicString.Resource.LifxApplicationError);
 				this.EventAggregator.GetEvent<MessageEvent>().Publish(new MessageEventArgs(MessageEventType.Error, message));
 			}
+			catch (Exception ex)
+			{
+				this.EventAggregator.GetEvent<MessageEvent>().Publish(new MessageEventArgs(MessageEventType.Error, ex.Message));
+			}
 		}
 
 		protected Task DeinitializeLifxClient()
