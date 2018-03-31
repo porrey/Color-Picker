@@ -84,11 +84,6 @@ namespace LifxDemo.ViewModels
 			}
 			set
 			{
-				if (this.Saturation == 0 && this.Kelvin != 0)
-				{
-					this.Limiter.ThrottleMethod(async () => { await this.SetSaturation(1.0); });
-				}
-
 				this.SetProperty(ref _hue, value);
 				this.Limiter.ThrottleMethod(async () => { await this.SetHue(_hue); });
 				this.SetColor();

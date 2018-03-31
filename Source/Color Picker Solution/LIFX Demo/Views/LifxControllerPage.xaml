@@ -85,12 +85,9 @@
 			</ListView.ItemTemplate>
 		</ListView>
 
-		<colorpicker:ColorPickerWheel Grid.Row="2"
+		<colorpicker:ColorPickerWheel x:Name="ColorPicker"
+									  Grid.Row="2"
 									  Grid.Column="1"
-									  Padding="5"
-									  Width="Auto"
-									  Height="Auto"
-									  Margin="10"
 									  IsEnabled="{Binding SelectedItem,Converter={StaticResource NullToBooleanConverter}}"
 									  VerticalAlignment="Center"
 									  HorizontalAlignment="Center"
@@ -98,7 +95,7 @@
 									  InnerDiameter=".55"
 									  IndicatorOffset="10"
 									  BorderBrush="LightGray"
-									  Background="#ddffffff"
+									  Background="#eeffffff"
 									  IndicatorBackground="#aa121212"
 									  Hue="{Binding SelectedItem.Hue, Mode=TwoWay}">
 			<colorpicker:ColorPickerWheel.Content>

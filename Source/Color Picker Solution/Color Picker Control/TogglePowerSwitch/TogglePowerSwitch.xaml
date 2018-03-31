@@ -75,7 +75,7 @@
 										<Setter Target="PART_Glow.Visibility"
 												Value="Visible" />
 										<Setter Target="PART_LightColor.Opacity"
-												Value="1.0" />
+												Value=".85" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="CheckedPressed">
@@ -142,12 +142,16 @@
 														  Offset="1" />
 										</LinearGradientBrush>
 									</Ellipse.Fill>
+									<Ellipse.RenderTransform>
+										<CompositeTransform ScaleX=".98"
+															ScaleY=".98" />
+									</Ellipse.RenderTransform>
 								</Ellipse>
 
 								<Ellipse x:Name="PART_LightColor"
 										 VerticalAlignment="Stretch"
 										 HorizontalAlignment="Stretch"
-										 Fill="{Binding ElementName=ColorPicker,Path=SelectedColor}"
+										 Fill="{Binding ElementName=ColorPicker, Path=SelectedColor.Color}"
 										 Opacity=".7"
 										 Visibility="Visible"
 										 RenderTransformOrigin="0.5, 0.5">

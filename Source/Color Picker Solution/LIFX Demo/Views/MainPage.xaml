@@ -16,7 +16,7 @@
 				<AppBarButton Label="Refresh"
 							  Command="{Binding RefreshCommand}">
 					<ToolTipService.ToolTip>
-						<ToolTip Content="Refresh the list of LIFX bulbs." />
+						<ToolTip Content="Refresh the properties of each LIFX bulb." />
 					</ToolTipService.ToolTip>
 					<AppBarButton.Content>
 						<SymbolIcon Symbol="Refresh" />

@@ -221,9 +221,6 @@
 										  Content="{TemplateBinding Content}"
 										  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
 										  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
-							<ContentPresenter.RenderTransform>
-								<TranslateTransform Y="0" />
-							</ContentPresenter.RenderTransform>
 						</ContentPresenter>
 					</Grid>
 				</ControlTemplate>

@@ -192,8 +192,6 @@
 			  Grid.Row="1">
 			<colorpicker:ColorPickerWheel x:Name="ColorPicker"
 										  IsEnabled="True"
-										  Width="Auto"
-										  Height="Auto"
 										  VerticalAlignment="Center"
 										  HorizontalAlignment="Center"
 										  BorderThickness="3"
@@ -202,7 +200,7 @@
 										  Brightness="1.0"
 										  Saturation="1.0"
 										  BorderBrush="#99000000"
-										  IndicatorOffset="10"
+										  IndicatorOffset="3"
 										  Background="{StaticResource CenterBackgroundBrush}"
 										  IndicatorBackground="{StaticResource ButtonBackground}"
 										  SelectedColorChanged="ColorPicker_SelectedColorChanged">

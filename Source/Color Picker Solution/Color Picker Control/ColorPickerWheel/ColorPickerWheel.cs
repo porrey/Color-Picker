@@ -55,7 +55,7 @@ namespace Porrey.Controls.ColorPicker
 
 		protected double GetInnerDiameter(double outerDiameter)
 		{
-			double innerDiameter = (this.InnerDiameter * outerDiameter) - this.BorderThickness.Left + 1;
+			double innerDiameter = (this.InnerDiameter * outerDiameter) - this.BorderThickness.Left;
 			return innerDiameter > 0 ? innerDiameter : 0;
 		}
 
