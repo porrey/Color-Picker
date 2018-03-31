@@ -106,7 +106,9 @@
 											   VerticalAlignment="Center"
 											   Width="{Binding ElementName=ColorPicker, Path=ActualInnerDiameter}"
 											   Height="{Binding ElementName=ColorPicker, Path=ActualInnerDiameter}"
-											   Brightness="{Binding ElementName=ColorPicker, Path=Brightness}" />
+											   Brightness="{Binding ElementName=ColorPicker, Path=Brightness}"
+											   Hue="{Binding ElementName=ColorPicker, Path=Hue}"
+											   GlowScaleX=".98"/>
 			</colorpicker:ColorPickerWheel.Content>
 		</colorpicker:ColorPickerWheel>
 

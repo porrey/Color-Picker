@@ -15,6 +15,12 @@ namespace ColorPickerDemo
 		public MainPage()
 		{
 			this.InitializeComponent();
+			this.ColorPicker.HueChanged += this.ColorPicker_HueChanged;
+		}
+
+		private void ColorPicker_HueChanged(object sender, ValueChangedEventArgs<int> e)
+		{
+			this.PowerSwitch.Hue = e.NewValue;
 		}
 
 		protected void RaisedPropertyChangedEvent([CallerMemberName]string propertyName = null)

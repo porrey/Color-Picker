@@ -14,8 +14,6 @@
 									<VisualState.Setters>
 										<Setter Target="PART_Icon.Opacity"
 												Value=".65" />
-										<Setter Target="PART_LightColor.Visibility"
-												Value="Collapsed" />
 										<Setter Target="PART_Glow.Visibility"
 												Value="Collapsed" />
 									</VisualState.Setters>
@@ -24,10 +22,6 @@
 									<VisualState.Setters>
 										<Setter Target="PART_Icon.Opacity"
 												Value=".75" />
-										<Setter Target="PART_LightColor.Opacity"
-												Value="1.0" />
-										<Setter Target="PART_LightColor.Visibility"
-												Value="Collapsed" />
 										<Setter Target="PART_Glow.Visibility"
 												Value="Collapsed" />
 									</VisualState.Setters>
@@ -36,10 +30,6 @@
 									<VisualState.Setters>
 										<Setter Target="PART_Icon.Opacity"
 												Value=".85" />
-										<Setter Target="PART_LightColor.Opacity"
-												Value="1.0" />
-										<Setter Target="PART_LightColor.Visibility"
-												Value="Collapsed" />
 										<Setter Target="PART_Glow.Visibility"
 												Value="Collapsed" />
 									</VisualState.Setters>
@@ -51,8 +41,6 @@
 									<VisualState.Setters>
 										<Setter Target="PART_Icon.Foreground"
 												Value="{ThemeResource SystemChromeDisabledHighColor}" />
-										<Setter Target="PART_LightColor.Visibility"
-												Value="Collapsed" />
 										<Setter Target="PART_Glow.Visibility"
 												Value="Collapsed" />
 									</VisualState.Setters>
@@ -62,30 +50,20 @@
 										<PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
 									</Storyboard>
 									<VisualState.Setters>
-										<Setter Target="PART_LightColor.Visibility"
-												Value="Visible" />
 										<Setter Target="PART_Glow.Visibility"
 												Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="CheckedPointerOver">
 									<VisualState.Setters>
-										<Setter Target="PART_LightColor.Visibility"
-												Value="Visible" />
 										<Setter Target="PART_Glow.Visibility"
 												Value="Visible" />
-										<Setter Target="PART_LightColor.Opacity"
-												Value=".85" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="CheckedPressed">
 									<VisualState.Setters>
-										<Setter Target="PART_LightColor.Visibility"
-												Value="Visible" />
 										<Setter Target="PART_Glow.Visibility"
 												Value="Visible" />
-										<Setter Target="PART_LightColor.Opacity"
-												Value=".5" />
 									</VisualState.Setters>
 									<Storyboard>
 										<PointerDownThemeAnimation TargetName="RootGrid" />
@@ -95,8 +73,6 @@
 									<VisualState.Setters>
 										<Setter Target="PART_Icon.Foreground"
 												Value="{ThemeResource SystemChromeDisabledHighColor}" />
-										<Setter Target="PART_LightColor.Visibility"
-												Value="Collapsed" />
 										<Setter Target="PART_Glow.Visibility"
 												Value="Collapsed" />
 									</VisualState.Setters>
@@ -114,8 +90,6 @@
 									<VisualState.Setters>
 										<Setter Target="PART_Icon.Foreground"
 												Value="{ThemeResource SystemChromeDisabledHighColor}" />
-										<Setter Target="PART_LightColor.Visibility"
-												Value="Collapsed" />
 										<Setter Target="PART_Glow.Visibility"
 												Value="Collapsed" />
 									</VisualState.Setters>
@@ -133,32 +107,18 @@
 										 RenderTransformOrigin="0.5, 0.5">
 									<Ellipse.Fill>
 										<LinearGradientBrush EndPoint="0.5,0"
-															 StartPoint="0.5,1">
+															 StartPoint="0.5,1"
+															 Opacity=".95">
 											<GradientStop Color="Transparent"
 														  Offset="0" />
-											<GradientStop Color="Transparent"
-														  Offset=".35" />
-											<GradientStop Color="{Binding ElementName=ColorPicker, Path=SelectedColor.Color}"
+											<GradientStop Color="Red"
 														  Offset="1" />
 										</LinearGradientBrush>
 									</Ellipse.Fill>
 									<Ellipse.RenderTransform>
-										<CompositeTransform ScaleX=".98"
-															ScaleY=".98" />
-									</Ellipse.RenderTransform>
-								</Ellipse>
-
-								<Ellipse x:Name="PART_LightColor"
-										 VerticalAlignment="Stretch"
-										 HorizontalAlignment="Stretch"
-										 Fill="{Binding ElementName=ColorPicker, Path=SelectedColor.Color}"
-										 Opacity=".7"
-										 Visibility="Visible"
-										 RenderTransformOrigin="0.5, 0.5">
-									<Ellipse.RenderTransform>
-										<CompositeTransform TranslateY="-11.5"
-															ScaleX=".42"
-															ScaleY=".42" />
+										<CompositeTransform ScaleX="1"
+															ScaleY="1"
+															TranslateY="0"/>
 									</Ellipse.RenderTransform>
 								</Ellipse>
 

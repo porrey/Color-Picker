@@ -108,8 +108,6 @@ namespace LifxDemo.Models
 		{
 			if (!await this.IsLocked())
 			{
-				System.Diagnostics.Debug.WriteLine("Not Locked");
-
 				// ***
 				// *** Must wait at least 50ms between calls per the documentation.
 				// ***
@@ -155,10 +153,6 @@ namespace LifxDemo.Models
 					// ***
 					this.LastSkippedAction = action;
 				}
-			}
-			else
-			{
-				System.Diagnostics.Debug.WriteLine("LOCKED");
 			}
 		}
 

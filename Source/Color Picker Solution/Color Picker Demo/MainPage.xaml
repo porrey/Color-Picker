@@ -200,7 +200,7 @@
 										  Brightness="1.0"
 										  Saturation="1.0"
 										  BorderBrush="#99000000"
-										  IndicatorOffset="3"
+										  IndicatorOffset="0"
 										  Background="{StaticResource CenterBackgroundBrush}"
 										  IndicatorBackground="{StaticResource ButtonBackground}"
 										  SelectedColorChanged="ColorPicker_SelectedColorChanged">
@@ -211,6 +211,10 @@
 												   VerticalAlignment="Center"
 												   Width="{Binding ElementName=ColorPicker, Path=ActualInnerDiameter}"
 												   Height="{Binding ElementName=ColorPicker, Path=ActualInnerDiameter}"
+												   GlowScaleX=".45"
+												   GlowScaleY=".45"
+												   GlowVerticalOffset="-25"
+												   Hue="{Binding ElementName=ColorPicker, Path=Hue}"
 												   Brightness="{Binding ElementName=ColorPicker, Path=Brightness}" />
 				</colorpicker:ColorPickerWheel.Content>
 			</colorpicker:ColorPickerWheel>

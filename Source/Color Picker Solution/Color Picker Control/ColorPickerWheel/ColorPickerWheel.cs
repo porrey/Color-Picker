@@ -187,7 +187,6 @@ namespace Porrey.Controls.ColorPicker
 
 		protected virtual void RaiseHueChangedEvent(int previousValue, int newValue)
 		{
-			//this.InvalidateMeasure();
 			ValueChangedEventArgs<int> e = new ValueChangedEventArgs<int>(previousValue, newValue);
 			this.OnHueChangedEvent(this, e);
 			this.HueChanged?.Invoke(this, e);
@@ -199,7 +198,6 @@ namespace Porrey.Controls.ColorPicker
 
 		protected virtual void RaiseSaturationChangedEvent(double previousValue, double newValue)
 		{
-			//this.InvalidateMeasure();
 			ValueChangedEventArgs<double> e = new ValueChangedEventArgs<double>(previousValue, newValue);
 			this.OnSaturationChangedEvent(this, e);
 			this.SaturationChanged?.Invoke(this, e);
@@ -211,7 +209,6 @@ namespace Porrey.Controls.ColorPicker
 
 		protected virtual void RaiseBrightnessChangedEvent(double previousValue, double newValue)
 		{
-			//this.InvalidateMeasure();
 			ValueChangedEventArgs<double> e = new ValueChangedEventArgs<double>(previousValue, newValue);
 			this.OnBrightnessChangedEvent(this, e);
 			this.BrightnessChanged?.Invoke(this, e);
@@ -223,7 +220,6 @@ namespace Porrey.Controls.ColorPicker
 
 		protected virtual void RaiseSelectedColorChangedEvent(SolidColorBrush previousValue, SolidColorBrush newValue)
 		{
-			//this.InvalidateMeasure();
 			ValueChangedEventArgs<SolidColorBrush> e = new ValueChangedEventArgs<SolidColorBrush>(previousValue, newValue);
 			this.OnSelectedColorChangedEvent(this, e);
 			this.SelectedColorChanged?.Invoke(this, e);
@@ -260,10 +256,7 @@ namespace Porrey.Controls.ColorPicker
 			{
 				if (instance.InnerDiameter >= 0 && instance.InnerDiameter <= 1.0)
 				{
-					//instance.InvalidateArrange();
-					//instance.InvalidateMeasure();
 					instance.RaiseInnerDiameterChangedEvent(Convert.ToDouble(e.OldValue), Convert.ToDouble(e.NewValue));
-					//instance.UpdateLayout();
 				}
 				else
 				{
@@ -284,9 +277,7 @@ namespace Porrey.Controls.ColorPicker
 		{
 			if (d is ColorPickerWheel instance)
 			{
-				//instance.InvalidateArrange();
 				instance.RaiseIndicatorBackgroundChangedEvent((Brush)e.OldValue, (Brush)e.NewValue);
-				//instance.UpdateLayout();
 			}
 		}
 
@@ -294,10 +285,7 @@ namespace Porrey.Controls.ColorPicker
 		{
 			if (d is ColorPickerWheel instance)
 			{
-				//instance.InvalidateArrange();
-				//instance.InvalidateMeasure();
 				instance.RaiseIndicatorOffsetChangedEvent(Convert.ToDouble(e.OldValue), Convert.ToDouble(e.NewValue));
-				//instance.UpdateLayout();
 			}
 		}
 
@@ -310,7 +298,6 @@ namespace Porrey.Controls.ColorPicker
 				instance.Hue = rotation.GetHueFromRotation();
 
 				instance.RaiseRotationChangedEvent(Convert.ToDouble(e.OldValue), Convert.ToDouble(e.NewValue));
-				//instance.UpdateLayout();
 			}
 		}
 
@@ -325,7 +312,6 @@ namespace Porrey.Controls.ColorPicker
 						instance.RotaryCompositeTransform.Rotation = instance.Hue.GetRotationFromHue();
 						instance.ApplySelectedColor();
 						instance.RaiseHueChangedEvent(Convert.ToInt32(e.OldValue), Convert.ToInt32(e.NewValue));
-						//instance.UpdateLayout();
 					}
 				}
 				else
@@ -343,7 +329,6 @@ namespace Porrey.Controls.ColorPicker
 				{
 					instance.ApplySelectedColor();
 					instance.RaiseSaturationChangedEvent(Convert.ToDouble(e.OldValue), Convert.ToDouble(e.NewValue));
-					//instance.UpdateLayout();
 				}
 				else
 				{
@@ -360,7 +345,6 @@ namespace Porrey.Controls.ColorPicker
 				{
 					instance.ApplySelectedColor();
 					instance.RaiseBrightnessChangedEvent(Convert.ToDouble(e.OldValue), Convert.ToDouble(e.NewValue));
-					//instance.UpdateLayout();
 				}
 				else
 				{
@@ -375,7 +359,6 @@ namespace Porrey.Controls.ColorPicker
 			{
 				instance.SetManipulationMode();
 				instance.RaiseIsInertiaEnabledChangedEvent(Convert.ToBoolean(e.OldValue), Convert.ToBoolean(e.NewValue));
-				//instance.UpdateLayout();
 			}
 		}
 
@@ -384,7 +367,6 @@ namespace Porrey.Controls.ColorPicker
 			if (d is ColorPickerWheel instance)
 			{
 				instance.RaiseSelectedColorChangedEvent((SolidColorBrush)e.OldValue, (SolidColorBrush)e.NewValue);
-				//instance.UpdateLayout();
 			}
 		}
 		#endregion
@@ -410,7 +392,6 @@ namespace Porrey.Controls.ColorPicker
 
 				this.RotaryCompositeTransform = ((CompositeTransform)this.Rotary.RenderTransform);
 				this.RotaryCompositeTransform.Rotation = this.Hue.GetRotationFromHue();
-				//this.GradientBrush = this.Rotary.Background;
 			}
 
 			// ***
