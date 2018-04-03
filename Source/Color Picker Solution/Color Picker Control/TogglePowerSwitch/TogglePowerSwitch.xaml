@@ -104,21 +104,27 @@
 								Opacity="{TemplateBinding Opacity}">
 							<Grid>
 								<Ellipse x:Name="PART_Glow"
-										 RenderTransformOrigin="0.5, 0.5">
+										 RenderTransformOrigin="0.5, 0">
 									<Ellipse.Fill>
-										<LinearGradientBrush EndPoint="0.5,0"
-															 StartPoint="0.5,1"
-															 Opacity=".95">
+										<LinearGradientBrush StartPoint="0.5,1"
+															 EndPoint="0.5,0"
+															 Opacity="1.0">
 											<GradientStop Color="Transparent"
 														  Offset="0" />
+											<GradientStop Color="Red"
+														  Offset=".4" />
+											<GradientStop Color="Red"
+														  Offset=".6" />
+											<GradientStop Color="Red"
+														  Offset=".8" />
 											<GradientStop Color="Red"
 														  Offset="1" />
 										</LinearGradientBrush>
 									</Ellipse.Fill>
 									<Ellipse.RenderTransform>
-										<CompositeTransform ScaleX="1"
-															ScaleY="1"
-															TranslateY="0"/>
+										<CompositeTransform ScaleX=".42"
+															ScaleY=".42"
+															TranslateY="0" />
 									</Ellipse.RenderTransform>
 								</Ellipse>
 
@@ -129,7 +135,7 @@
 											 RenderTransformOrigin="0.5, 0.5"
 											 UriSource="ms-appx:///Porrey.Controls.ColorPicker/Assets/light.png">
 									<BitmapIcon.RenderTransform>
-										<CompositeTransform TranslateY="9"
+										<CompositeTransform TranslateY="0"
 															ScaleX=".65"
 															ScaleY=".65" />
 									</BitmapIcon.RenderTransform>

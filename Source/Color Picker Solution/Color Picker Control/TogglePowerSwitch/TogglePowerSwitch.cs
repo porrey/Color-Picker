@@ -38,15 +38,15 @@ namespace Porrey.Controls.ColorPicker
 				this.OuterBorder.Width = e.NewSize.Width;
 				this.OuterBorder.Height = e.NewSize.Height;
 				this.OuterBorder.CornerRadius = new CornerRadius(e.NewSize.Width);
+
+				this.SetGlowVerticalOffset();
 			}
 		}
 
 		public static readonly DependencyProperty BrightnessProperty = DependencyProperty.Register("Brightness", typeof(double), typeof(TogglePowerSwitch), new PropertyMetadata(.5, new PropertyChangedCallback(OnBrightnessPropertyChanged)));
 		public static readonly DependencyProperty HueProperty = DependencyProperty.Register("Hue", typeof(int), typeof(TogglePowerSwitch), new PropertyMetadata(0, new PropertyChangedCallback(OnHuePropertyChanged)));
+		public static readonly DependencyProperty SaturationProperty = DependencyProperty.Register("Saturation", typeof(double), typeof(TogglePowerSwitch), new PropertyMetadata(1.0, new PropertyChangedCallback(OnSaturationPropertyChanged)));
 		public static readonly DependencyProperty LightColorProperty = DependencyProperty.Register("LightColor", typeof(Color), typeof(TogglePowerSwitch), new PropertyMetadata(Color.FromArgb(255, 255, 0, 0), new PropertyChangedCallback(OnLightColorPropertyChanged)));
-		public static readonly DependencyProperty GlowScaleXProperty = DependencyProperty.Register("GlowScaleX", typeof(double), typeof(TogglePowerSwitch), new PropertyMetadata(.98, new PropertyChangedCallback(OnGlowScaleXPropertyChanged)));
-		public static readonly DependencyProperty GlowScaleYProperty = DependencyProperty.Register("GlowScaleY", typeof(double), typeof(TogglePowerSwitch), new PropertyMetadata(.98, new PropertyChangedCallback(OnGlowScaleYPropertyChanged)));
-		public static readonly DependencyProperty GlowVerticalOffsetProperty = DependencyProperty.Register("GlowVerticalOffset", typeof(int), typeof(TogglePowerSwitch), new PropertyMetadata(0, new PropertyChangedCallback(OnGlowVerticalOffsetPropertyChanged)));
 
 		public double Brightness
 		{
@@ -72,6 +72,18 @@ namespace Porrey.Controls.ColorPicker
 			}
 		}
 
+		public double Saturation
+		{
+			get
+			{
+				return (double)this.GetValue(SaturationProperty);
+			}
+			set
+			{
+				this.SetValue(SaturationProperty, value);
+			}
+		}
+
 		public Color LightColor
 		{
 			get
@@ -81,42 +93,6 @@ namespace Porrey.Controls.ColorPicker
 			set
 			{
 				this.SetValue(LightColorProperty, value);
-			}
-		}
-
-		public double GlowScaleX
-		{
-			get
-			{
-				return (double)this.GetValue(GlowScaleXProperty);
-			}
-			set
-			{
-				this.SetValue(GlowScaleXProperty, value);
-			}
-		}
-
-		public double GlowScaleY
-		{
-			get
-			{
-				return (double)this.GetValue(GlowScaleYProperty);
-			}
-			set
-			{
-				this.SetValue(GlowScaleYProperty, value);
-			}
-		}
-
-		public int GlowVerticalOffset
-		{
-			get
-			{
-				return (int)this.GetValue(GlowVerticalOffsetProperty);
-			}
-			set
-			{
-				this.SetValue(GlowVerticalOffsetProperty, value);
 			}
 		}
 
@@ -144,11 +120,26 @@ namespace Porrey.Controls.ColorPicker
 			{
 				if (instance.Hue >= 0 && instance.Hue <= 360)
 				{
-					instance.SetSelectedColor(instance.Hue);
+					instance.SetSelectedColor(instance.Hue, instance.Saturation);
 				}
 				else
 				{
 					throw new ArgumentOutOfRangeException("Hue", "Hue must be a value from 0 to 360.");
+				}
+			}
+		}
+
+		private static void OnSaturationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is TogglePowerSwitch instance)
+			{
+				if (instance.Saturation >= 0 && instance.Saturation <= 1.0)
+				{
+					instance.SetSelectedColor(instance.Hue, instance.Saturation);
+				}
+				else
+				{
+					throw new ArgumentOutOfRangeException("Saturation", "Saturation must be a value from 0 to 1.0.");
 				}
 			}
 		}
@@ -158,44 +149,6 @@ namespace Porrey.Controls.ColorPicker
 			if (d is TogglePowerSwitch instance)
 			{
 
-			}
-		}
-
-		private static void OnGlowScaleXPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			if (d is TogglePowerSwitch instance)
-			{
-				if (instance.GlowScaleX >= 0 && instance.GlowScaleX <= 1.0)
-				{
-					instance.SetGlowScaleX(instance.GlowScaleX);
-				}
-				else
-				{
-					throw new ArgumentOutOfRangeException("GlowScaleY", "GlowScaleY must be a value from 0 to 1.0.");
-				}
-			}
-		}
-
-		private static void OnGlowScaleYPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			if (d is TogglePowerSwitch instance)
-			{
-				if (instance.GlowScaleY >= 0 && instance.GlowScaleY <= 1.0)
-				{
-					instance.SetGlowScaleY(instance.GlowScaleY);
-				}
-				else
-				{
-					throw new ArgumentOutOfRangeException("GlowScaleY", "GlowScale must be a value from 0 to 1.0.");
-				}
-			}
-		}
-
-		private static void OnGlowVerticalOffsetPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			if (d is TogglePowerSwitch instance)
-			{
-				instance.SetGlowVerticalOffset(instance.GlowVerticalOffset);
 			}
 		}
 
@@ -209,10 +162,9 @@ namespace Porrey.Controls.ColorPicker
 			if (this.GetTemplateChild("PART_Glow") is Ellipse glow)
 			{
 				this.Glow = glow;
-				this.SetGlowScaleX(this.GlowScaleX);
-				this.SetGlowScaleY(this.GlowScaleY);
-				this.SetGlowVerticalOffset(this.GlowVerticalOffset);
 			}
+
+			this.SetSelectedColor(0, 1.0);
 
 			base.OnApplyTemplate();
 		}
@@ -220,35 +172,22 @@ namespace Porrey.Controls.ColorPicker
 		protected Border OuterBorder { get; set; }
 		protected Ellipse Glow { get; set; }
 
-		protected void SetSelectedColor(int hue)
+		protected void SetSelectedColor(int hue, double saturation)
 		{
 			if (this.Glow?.Fill is LinearGradientBrush fill)
 			{
-				fill.GradientStops[1].Color = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv(hue, 1.0, 1.0);
+				fill.GradientStops[4].Color = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv(hue, saturation, 1.0, 1.0);
+				fill.GradientStops[3].Color = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv(hue, saturation, 1.0, 0.8);
+				fill.GradientStops[2].Color = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv(hue, saturation, 1.0, 0.6);
+				fill.GradientStops[1].Color = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv(hue, saturation, 1.0, 0.4);
 			}
 		}
 
-		protected void SetGlowScaleX(double scale)
+		protected void SetGlowVerticalOffset()
 		{
 			if (this.Glow?.RenderTransform is CompositeTransform transform)
 			{
-				transform.ScaleX = scale;
-			}
-		}
-
-		protected void SetGlowScaleY(double scale)
-		{
-			if (this.Glow?.RenderTransform is CompositeTransform transform)
-			{
-				transform.ScaleY = scale;
-			}
-		}
-
-		protected void SetGlowVerticalOffset(int offset)
-		{
-			if (this.Glow?.RenderTransform is CompositeTransform transform)
-			{
-				transform.TranslateY = offset;
+				transform.TranslateY = .205 * (this.OuterBorder.ActualHeight - this.OuterBorder.BorderThickness.Top);
 			}
 		}
 	}
