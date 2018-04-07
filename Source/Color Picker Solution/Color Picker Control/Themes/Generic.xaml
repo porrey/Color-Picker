@@ -1,8 +1,8 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
 	<ResourceDictionary.MergedDictionaries>
-		<ResourceDictionary Source="ms-appx:///Porrey.Controls.ColorPicker/ColorPickerWheel/ColorPickerWheel.xaml" />
-		<ResourceDictionary Source="ms-appx:///Porrey.Controls.ColorPicker/TogglePowerSwitch/TogglePowerSwitch.xaml" />
-		<ResourceDictionary Source="ms-appx:///Porrey.Controls.ColorPicker/IndicatorArrow/IndicatorArrow.xaml" />
+		<ResourceDictionary Source="ms-appx:///Porrey.Controls.ColorPicker/Themes/ColorPickerWheel.xaml" />
+		<ResourceDictionary Source="ms-appx:///Porrey.Controls.ColorPicker/Themes/TogglePowerSwitch.xaml" />
+		<ResourceDictionary Source="ms-appx:///Porrey.Controls.ColorPicker/Themes/IndicatorArrow.xaml" />
 	</ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

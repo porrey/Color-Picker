@@ -108,11 +108,11 @@
   <ItemGroup>
     <Compile Include="Converters\DoubleToCornerRadiusConverter.cs" />
     <Compile Include="Extensions\GeometryExtensions.cs" />
-    <Compile Include="ColorPickerWheel\ColorPickerWheel.cs" />
-    <Compile Include="IndicatorArrow\IndicatorArrow.cs" />
+    <Compile Include="ColorPickerWheel.cs" />
+    <Compile Include="IndicatorArrow.cs" />
     <Compile Include="Models\ValueChangedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TogglePowerSwitch\TogglePowerSwitch.cs" />
+    <Compile Include="TogglePowerSwitch.cs" />
     <EmbeddedResource Include="Properties\ColorPicker.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -127,11 +127,11 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ColorPickerWheel\ColorPickerWheel.xaml">
+    <Page Include="Themes\ColorPickerWheel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="IndicatorArrow\IndicatorArrow.xaml">
+    <Page Include="Themes\IndicatorArrow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -139,16 +139,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="TogglePowerSwitch\TogglePowerSwitch.xaml">
+    <Page Include="Themes\TogglePowerSwitch.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Porrey.Controls.ColorPicker.1.0.0.nupkg" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\ControlRadialGradient.png" />
     <Content Include="Assets\light.png" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -33,7 +33,7 @@ namespace LifxDemo.ViewModels
 		protected LightBulb LightBulb { get; set; }
 
 		public string HostName => this.LightBulb?.HostName;
-		public string MacAddress => this.LightBulb?.MacAddressName;
+		public string MacAddress => this.LightBulb?.MacAddressName.ToLower().Replace("b", "a").Replace("1", "3").Replace("d", "e");
 
 		private string _name = "Unknown";
 		public string Name
@@ -158,7 +158,7 @@ namespace LifxDemo.ViewModels
 						// ***
 						await ((DispatchedHandler)(() =>
 						{
-							this.Name = state.Label;
+							this.Name = state.Label.Replace("Sarah’s Color", "IoT").Replace("Sarah", "Living Room").Replace("Dad’s Nightstand", "Kitchen").Replace("Mom’s Nightstand", "Dining Room");
 							this.IsOn = state.IsOn;
 							this.Hue = Lifx.Hue.FromLifx(state.Hue);
 							this.Saturation = Lifx.Saturation.FromLifx(state.Saturation);
