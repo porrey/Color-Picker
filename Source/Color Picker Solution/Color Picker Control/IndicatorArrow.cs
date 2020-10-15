@@ -19,6 +19,7 @@
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 
 namespace Porrey.Controls.ColorPicker
@@ -35,7 +36,7 @@ namespace Porrey.Controls.ColorPicker
 		{
 			base.OnApplyTemplate();
 
-			if (this.GetTemplateChild("PART_Triangle") is Polygon triangle)
+			if (this.GetTemplateChild("PART_Triangle") is Path triangle)
 			{
 				this.Triangle = triangle;
 			}
@@ -43,12 +44,13 @@ namespace Porrey.Controls.ColorPicker
 
 		private void Selector_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			this.Triangle.Points.Clear();
-			this.Triangle.Points.Add(new Point(0, 0));
-			this.Triangle.Points.Add(new Point(this.ActualWidth, 0));
-			this.Triangle.Points.Add(new Point(this.ActualWidth / 2.0, this.ActualHeight));
+			this.Triangle.Stretch = Stretch.Uniform;
+			//this.Triangle.Points.Clear();
+			//this.Triangle.Points.Add(new Point(0, 0));
+			//this.Triangle.Points.Add(new Point(this.ActualWidth, 0));
+			//this.Triangle.Points.Add(new Point(this.ActualWidth / 2.0, this.ActualHeight));
 		}
 
-		protected Polygon Triangle { get; set; }
+		protected Path Triangle { get; set; }
 	}
 }

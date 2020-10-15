@@ -1,19 +1,19 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:local="using:Porrey.Controls.ColorPicker">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:local="using:Porrey.Controls.ColorPicker">
 
-	<Style TargetType="local:IndicatorArrow">
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="local:IndicatorArrow">
-					<Canvas>
-						<Polygon Name="PART_Triangle"
-								 Stroke="{TemplateBinding BorderBrush}"
-								 StrokeThickness="{TemplateBinding BorderThickness}"
-								 Fill="{TemplateBinding Background}">
-						</Polygon>
-					</Canvas>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
+    <Style TargetType="local:IndicatorArrow">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:IndicatorArrow">
+                    <Canvas>
+                        <Path
+                            Name="PART_Triangle"
+                            Data="m 23.197468,57.340362 c 27.777297,-3.265184 33.701967,-3.393004 53.611784,1.5875 L 48.345325,107.88732 Z"
+                            Fill="{TemplateBinding Background}"
+                            Stroke="{TemplateBinding BorderBrush}"
+                            StrokeThickness="{TemplateBinding BorderThickness}" />
+                    </Canvas>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

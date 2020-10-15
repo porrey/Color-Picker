@@ -20,7 +20,7 @@ namespace ColorPickerDemo
 
 		private void ColorPicker_HueChanged(object sender, ValueChangedEventArgs<int> e)
 		{
-			this.PowerSwitch.Hue = e.NewValue;
+			//this.PowerSwitch.Hue = e.NewValue;
 		}
 
 		protected void RaisedPropertyChangedEvent([CallerMemberName]string propertyName = null)
