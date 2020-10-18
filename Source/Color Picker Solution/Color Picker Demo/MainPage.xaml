@@ -21,6 +21,7 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="200" />
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="200" />
 		</Grid.ColumnDefinitions>
@@ -64,7 +65,7 @@
 						<TextBlock Text="{Binding ElementName=ColorPicker, Path=Hue, Mode=OneWay}"
 								   FontWeight="Light"
 								   FontSize="{StaticResource HeaderFontSize}"
-								   Foreground="{x:Bind FontColor, Mode=OneWay}"
+								   Foreground="{x:Bind HueFontColor, Mode=OneWay}"
 								   VerticalAlignment="Center"
 								   HorizontalAlignment="Center"
 								   Margin="3" />
@@ -95,14 +96,13 @@
 					<Grid>
 						<Rectangle Fill="Red">
 							<Rectangle.RenderTransform>
-								<ScaleTransform ScaleX="{x:Bind RedPercent,Mode=OneWay}" />
+								<ScaleTransform ScaleX="{x:Bind RedPercent, Mode=OneWay}" />
 							</Rectangle.RenderTransform>
 						</Rectangle>
-
 						<TextBlock Text="{Binding ElementName=ColorPicker, Path=SelectedColor.Color.R, Mode=OneWay}"
 								   FontWeight="Light"
 								   FontSize="{StaticResource HeaderFontSize}"
-								   Foreground="Black"
+								   Foreground="{x:Bind RedFontColor, Mode=OneWay}"
 								   VerticalAlignment="Center"
 								   HorizontalAlignment="Center"
 								   Margin="3" />
@@ -137,10 +137,10 @@
 							</Rectangle.RenderTransform>
 						</Rectangle>
 
-						<TextBlock Text="{Binding ElementName=ColorPicker, Path=SelectedColor.Color.R, Mode=OneWay}"
+						<TextBlock Text="{Binding ElementName=ColorPicker, Path=SelectedColor.Color.G, Mode=OneWay}"
 								   FontWeight="Light"
 								   FontSize="{StaticResource HeaderFontSize}"
-								   Foreground="Black"
+								   Foreground="{x:Bind GreenFontColor, Mode=OneWay}"
 								   VerticalAlignment="Center"
 								   HorizontalAlignment="Center"
 								   Margin="3" />
@@ -175,10 +175,10 @@
 							</Rectangle.RenderTransform>
 						</Rectangle>
 
-						<TextBlock Text="{Binding ElementName=ColorPicker, Path=SelectedColor.Color.R, Mode=OneWay}"
+						<TextBlock Text="{Binding ElementName=ColorPicker, Path=SelectedColor.Color.B, Mode=OneWay}"
 								   FontWeight="Light"
 								   FontSize="{StaticResource HeaderFontSize}"
-								   Foreground="Black"
+								   Foreground="{x:Bind BlueFontColor, Mode=OneWay}"
 								   VerticalAlignment="Center"
 								   HorizontalAlignment="Center"
 								   Margin="3" />
@@ -189,20 +189,22 @@
 
 		<!-- Color Picker -->
 		<Grid x:Name="Grid"
+			  Grid.Column="1"
+			  Padding="10"
 			  Grid.Row="1">
 			<colorpicker:ColorPickerWheel x:Name="ColorPicker"
-										  IsEnabled="True"
-										  VerticalAlignment="Center"
-										  HorizontalAlignment="Center"
+										  IsEnabled="true"
+										  VerticalAlignment="Stretch"
+										  HorizontalAlignment="Stretch"
 										  BorderThickness="3"
 										  InnerDiameter=".55"
 										  Hue="0"
 										  Brightness="1.0"
 										  Saturation="1.0"
 										  BorderBrush="#99000000"
-										  IndicatorOffset="0"
 										  Background="{StaticResource CenterBackgroundBrush}"
-										  IndicatorBackground="{StaticResource ButtonBackground}"
+										  IndicatorOffset="-3"
+										  IndicatorScale="0.6"
 										  SelectedColorChanged="ColorPicker_SelectedColorChanged">
 				<colorpicker:ColorPickerWheel.Content>
 					<colorpicker:TogglePowerSwitch x:Name="PowerSwitch"

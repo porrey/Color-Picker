@@ -89,14 +89,11 @@
 									  Grid.Row="2"
 									  Grid.Column="1"
 									  IsEnabled="{Binding SelectedItem,Converter={StaticResource NullToBooleanConverter}}"
-									  VerticalAlignment="Center"
-									  HorizontalAlignment="Center"
 									  BorderThickness="5"
 									  InnerDiameter=".55"
 									  IndicatorOffset="10"
 									  BorderBrush="LightGray"
 									  Background="#eeffffff"
-									  IndicatorBackground="#aa121212"
 									  Hue="{Binding SelectedItem.Hue, Mode=TwoWay}">
 			<colorpicker:ColorPickerWheel.Content>
 				<colorpicker:TogglePowerSwitch x:Name="PowerSwitch"

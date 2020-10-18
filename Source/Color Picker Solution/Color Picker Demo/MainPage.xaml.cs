@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Porrey.Controls.ColorPicker;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -23,7 +24,7 @@ namespace ColorPickerDemo
 			this.PowerSwitch.Hue = e.NewValue;
 		}
 
-		protected void RaisedPropertyChangedEvent([CallerMemberName]string propertyName = null)
+		protected void RaisedPropertyChangedEvent([CallerMemberName] string propertyName = null)
 		{
 			this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
@@ -42,7 +43,10 @@ namespace ColorPickerDemo
 			this.RaisedPropertyChangedEvent(nameof(this.GreenPercent));
 			this.RaisedPropertyChangedEvent(nameof(this.Blue));
 			this.RaisedPropertyChangedEvent(nameof(this.BluePercent));
-			this.RaisedPropertyChangedEvent(nameof(this.FontColor));
+			this.RaisedPropertyChangedEvent(nameof(this.HueFontColor));
+			this.RaisedPropertyChangedEvent(nameof(this.RedFontColor));
+			this.RaisedPropertyChangedEvent(nameof(this.GreenFontColor));
+			this.RaisedPropertyChangedEvent(nameof(this.BlueFontColor));
 		}
 
 		public SolidColorBrush SelectedColor => this.ColorPicker.SelectedColor;
@@ -54,7 +58,7 @@ namespace ColorPickerDemo
 		public double GreenPercent => this.Green.Color.G / 255.0;
 		public double BluePercent => this.Blue.Color.B / 255.0;
 
-		public SolidColorBrush FontColor
+		public SolidColorBrush HueFontColor
 		{
 			get
 			{
@@ -94,6 +98,62 @@ namespace ColorPickerDemo
 				}
 
 				return new SolidColorBrush(returnValue);
+			}
+		}
+
+		public SolidColorBrush RedFontColor
+		{
+			get
+			{
+				Color returnValue = Colors.Wheat;
+
+				if (this.RedPercent < .60)
+				{
+					returnValue = Colors.Black;
+				}
+
+				return new SolidColorBrush(returnValue);
+			}
+		}
+
+		public SolidColorBrush GreenFontColor
+		{
+			get
+			{
+				Color returnValue = Colors.Wheat;
+
+				if (this.GreenPercent < .60)
+				{
+					returnValue = Colors.Black;
+				}
+
+				return new SolidColorBrush(returnValue);
+			}
+		}
+
+		public SolidColorBrush BlueFontColor
+		{
+			get
+			{
+				Color returnValue = Colors.Wheat;
+
+				if (this.BluePercent < .60)
+				{
+					returnValue = Colors.Black;
+				}
+
+				return new SolidColorBrush(returnValue);
+			}
+		}
+
+		public async Task AutoRotate()
+		{
+			await Task.Delay(2000);
+
+			for (int i = 0; i <= 360; i++)
+			{
+				this.ColorPicker.Hue = i;
+				await Task.Delay(75);
 			}
 		}
 	}

@@ -1,14 +1,20 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:local="using:Porrey.Controls.ColorPicker">
+                    xmlns:colorpicker="using:Porrey.Controls.ColorPicker">
 
-	<Style TargetType="local:IndicatorArrow">
+	<Style TargetType="colorpicker:IndicatorArrow">
+		<Setter Property="OutlineBrush"
+				Value="#aa000000" />
+		<Setter Property="OutlineThickness"
+				Value="3" />
+		<Setter Property="Background"
+				Value="#99000000" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="local:IndicatorArrow">
+				<ControlTemplate TargetType="colorpicker:IndicatorArrow">
 					<Canvas>
 						<Polygon Name="PART_Triangle"
-								 Stroke="{TemplateBinding BorderBrush}"
-								 StrokeThickness="{TemplateBinding BorderThickness}"
+								 Stroke="{TemplateBinding OutlineBrush}"
+								 StrokeThickness="{TemplateBinding OutlineThickness}"
 								 Fill="{TemplateBinding Background}">
 						</Polygon>
 					</Canvas>
