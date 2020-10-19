@@ -206,6 +206,25 @@
 										  IndicatorOffset="-3"
 										  IndicatorScale="0.6"
 										  SelectedColorChanged="ColorPicker_SelectedColorChanged">
+				<!--
+				<colorpicker:ColorPickerWheel.Indicator>
+					<Grid>
+						<Path VerticalAlignment="Top"
+								HorizontalAlignment="Center"
+								Fill="#aa000000"
+								Stroke="#99000000"
+								StrokeThickness="4">
+							<Path.Data>
+								<GeometryGroup>
+									<EllipseGeometry Center="50, 80"
+														RadiusX="60"
+														RadiusY="60" />
+								</GeometryGroup>
+							</Path.Data>
+						</Path>
+					</Grid>
+				</colorpicker:ColorPickerWheel.Indicator>
+				-->
 				<colorpicker:ColorPickerWheel.Content>
 					<colorpicker:TogglePowerSwitch x:Name="PowerSwitch"
 												   Foreground="#FF6E6E6E"
