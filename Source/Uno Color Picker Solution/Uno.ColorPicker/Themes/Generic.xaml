@@ -1,0 +1,8 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///Uno.ColorPicker/Themes/ColorPickerWheel.xaml" />
+        <ResourceDictionary Source="ms-appx:///Uno.ColorPicker/Themes/TogglePowerSwitch.xaml" />
+        <ResourceDictionary Source="ms-appx:///Uno.ColorPicker/Themes/IndicatorArrow.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>
