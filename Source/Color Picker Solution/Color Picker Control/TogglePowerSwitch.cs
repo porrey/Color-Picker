@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Daniel Porrey
+﻿// Copyright © 2018-2020 Daniel Porrey
 //
 // This file is part of the Color Picker Control solution.
 // 
@@ -60,22 +60,10 @@ namespace Porrey.Controls.ColorPicker
 			}
 		}
 
-		public static readonly DependencyProperty BrightnessProperty = DependencyProperty.Register("Brightness", typeof(double), typeof(TogglePowerSwitch), new PropertyMetadata(.5, new PropertyChangedCallback(OnBrightnessPropertyChanged)));
 		public static readonly DependencyProperty HueProperty = DependencyProperty.Register("Hue", typeof(int), typeof(TogglePowerSwitch), new PropertyMetadata(0, new PropertyChangedCallback(OnHuePropertyChanged)));
 		public static readonly DependencyProperty SaturationProperty = DependencyProperty.Register("Saturation", typeof(double), typeof(TogglePowerSwitch), new PropertyMetadata(1.0, new PropertyChangedCallback(OnSaturationPropertyChanged)));
+		public static readonly DependencyProperty BrightnessProperty = DependencyProperty.Register("Brightness", typeof(double), typeof(TogglePowerSwitch), new PropertyMetadata(.5, new PropertyChangedCallback(OnBrightnessPropertyChanged)));
 		public static readonly DependencyProperty LightColorProperty = DependencyProperty.Register("LightColor", typeof(Color), typeof(TogglePowerSwitch), new PropertyMetadata(Color.FromArgb(255, 255, 0, 0), new PropertyChangedCallback(OnLightColorPropertyChanged)));
-
-		public double Brightness
-		{
-			get
-			{
-				return (double)this.GetValue(BrightnessProperty);
-			}
-			set
-			{
-				this.SetValue(BrightnessProperty, value);
-			}
-		}
 
 		public int Hue
 		{
@@ -101,6 +89,18 @@ namespace Porrey.Controls.ColorPicker
 			}
 		}
 
+		public double Brightness
+		{
+			get
+			{
+				return (double)this.GetValue(BrightnessProperty);
+			}
+			set
+			{
+				this.SetValue(BrightnessProperty, value);
+			}
+		}
+
 		public Color LightColor
 		{
 			get
@@ -110,6 +110,36 @@ namespace Porrey.Controls.ColorPicker
 			set
 			{
 				this.SetValue(LightColorProperty, value);
+			}
+		}
+
+		private static void OnHuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is TogglePowerSwitch instance)
+			{
+				if (instance.Hue >= 0 && instance.Hue <= 360)
+				{
+					instance.SetSelectedColor(instance.Hue, instance.Saturation, instance.Brightness);
+				}
+				else
+				{
+					throw new ArgumentOutOfRangeException("Hue", "Hue must be a value from 0 to 360.");
+				}
+			}
+		}
+
+		private static void OnSaturationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is TogglePowerSwitch instance)
+			{
+				if (instance.Saturation >= 0 && instance.Saturation <= 1.0)
+				{
+					instance.SetSelectedColor(instance.Hue, instance.Saturation, instance.Brightness);
+				}
+				else
+				{
+					throw new ArgumentOutOfRangeException("Saturation", "Saturation must be a value from 0 to 1.0.");
+				}
 			}
 		}
 
@@ -131,41 +161,12 @@ namespace Porrey.Controls.ColorPicker
 			}
 		}
 
-		private static void OnHuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			if (d is TogglePowerSwitch instance)
-			{
-				if (instance.Hue >= 0 && instance.Hue <= 360)
-				{
-					instance.SetSelectedColor(instance.Hue, instance.Saturation);
-				}
-				else
-				{
-					throw new ArgumentOutOfRangeException("Hue", "Hue must be a value from 0 to 360.");
-				}
-			}
-		}
-
-		private static void OnSaturationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			if (d is TogglePowerSwitch instance)
-			{
-				if (instance.Saturation >= 0 && instance.Saturation <= 1.0)
-				{
-					instance.SetSelectedColor(instance.Hue, instance.Saturation);
-				}
-				else
-				{
-					throw new ArgumentOutOfRangeException("Saturation", "Saturation must be a value from 0 to 1.0.");
-				}
-			}
-		}
-
 		private static void OnLightColorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			if (d is TogglePowerSwitch instance)
 			{
-
+				var lightColor = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.ToHsv(instance.LightColor);
+				instance.SetSelectedColor((int)(360 * lightColor.H), lightColor.S, lightColor.V);
 			}
 		}
 
@@ -181,7 +182,7 @@ namespace Porrey.Controls.ColorPicker
 				this.Glow = glow;
 			}
 
-			this.SetSelectedColor(0, 1.0);
+			this.SetSelectedColor(0, 1.0, 1.0);
 
 			base.OnApplyTemplate();
 		}
@@ -189,14 +190,14 @@ namespace Porrey.Controls.ColorPicker
 		protected Border OuterBorder { get; set; }
 		protected Ellipse Glow { get; set; }
 
-		protected void SetSelectedColor(int hue, double saturation)
+		protected void SetSelectedColor(int hue, double saturation, double brightness)
 		{
 			if (this.Glow?.Fill is LinearGradientBrush fill)
 			{
-				fill.GradientStops[4].Color = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv(hue, saturation, 1.0, 1.0);
-				fill.GradientStops[3].Color = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv(hue, saturation, 1.0, 0.8);
-				fill.GradientStops[2].Color = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv(hue, saturation, 1.0, 0.6);
-				fill.GradientStops[1].Color = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv(hue, saturation, 1.0, 0.4);
+				fill.GradientStops[4].Color = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv(hue, saturation, brightness, 1.0);
+				fill.GradientStops[3].Color = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv(hue, saturation, brightness, 0.8);
+				fill.GradientStops[2].Color = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv(hue, saturation, brightness, 0.6);
+				fill.GradientStops[1].Color = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.FromHsv(hue, saturation, brightness, 0.4);
 			}
 		}
 

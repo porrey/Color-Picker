@@ -11,7 +11,6 @@
     <AssemblyName>Porrey.Controls.ColorPicker</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -130,22 +129,26 @@
     <Page Include="Themes\ColorPickerWheel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\IndicatorArrow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
+      <CustomToolNamespace>Porrey.Controls.ColorPicker</CustomToolNamespace>
     </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <CustomToolNamespace>Porrey.Controls.ColorPicker</CustomToolNamespace>
+    </Page>
+    <Page Include="Themes\IndicatorArrow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CustomToolNamespace>Porrey.Controls.ColorPicker</CustomToolNamespace>
     </Page>
     <Page Include="Themes\TogglePowerSwitch.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <CustomToolNamespace>Porrey.Controls.ColorPicker</CustomToolNamespace>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Porrey.Controls.ColorPicker.1.0.0.nupkg" />
+    <None Include="Porrey.Controls.ColorPicker.1.1.0.nupkg" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\ControlRadialGradient.png" />

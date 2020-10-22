@@ -1,4 +1,4 @@
-﻿// Copyright © 2018 Daniel Porrey
+﻿// Copyright © 2018-2020 Daniel Porrey
 //
 // This file is part of the Color Picker Control solution.
 // 
@@ -27,16 +27,15 @@ using Windows.UI.Xaml.Media;
 
 namespace Porrey.Controls.ColorPicker
 {
-	[TemplateVisualState(Name = "Normal", GroupName = "CommonStates")]
-	[TemplateVisualState(Name = "Disabled", GroupName = "CommonStates")]
-	[TemplateVisualState(Name = "PointerOver", GroupName = "CommonStates")]
-	[TemplateVisualState(Name = "Pressed", GroupName = "CommonStates")]
-	[TemplatePart(Name = "PART_Rotary", Type = typeof(Border))]
-	[TemplatePart(Name = "PART_Center", Type = typeof(Border))]
-	[TemplatePart(Name = "PART_Indicator", Type = typeof(IndicatorArrow))]
-	[TemplatePart(Name = "PART_IndicatorOutline", Type = typeof(IndicatorArrow))]
-	[TemplatePart(Name = "PART_Content", Type = typeof(ContentPresenter))]
-	[ContentProperty(Name = "Content")]
+	//[TemplateVisualState(Name = "Normal", GroupName = "CommonStates")]
+	//[TemplateVisualState(Name = "Disabled", GroupName = "CommonStates")]
+	//[TemplateVisualState(Name = "PointerOver", GroupName = "CommonStates")]
+	//[TemplateVisualState(Name = "Pressed", GroupName = "CommonStates")]
+	//[TemplatePart(Name = "PART_Rotary", Type = typeof(Border))]
+	//[TemplatePart(Name = "PART_Center", Type = typeof(Border))]
+	//[TemplatePart(Name = "PART_Indicator", Type = typeof(ContentPresenter))]
+	//[TemplatePart(Name = "PART_Content", Type = typeof(ContentPresenter))]
+	//[ContentProperty(Name = "Content")]
 	public class ColorPickerWheel : ContentControl
 	{
 		private bool _pointerEntered = false;
@@ -53,6 +52,20 @@ namespace Porrey.Controls.ColorPicker
 		{
 			this.ActualOuterDiameter = this.GetOuterDiameter(e.NewSize);
 			this.ActualInnerDiameter = this.GetInnerDiameter(this.ActualOuterDiameter);
+			this.ActualOuterRadius = (this.ActualOuterDiameter - this.ActualInnerDiameter) / 2.0;
+
+			this.ActualTopBottomGap = (e.NewSize.Height - this.ActualOuterDiameter) / 2.0;
+			this.ActualLeftRightGap = (e.NewSize.Width - this.ActualOuterDiameter) / 2.0;
+
+			if (this.GetTemplateChild("PART_Indicator") is ContentPresenter cp)
+			{
+				if (cp.RenderTransform is CompositeTransform transform)
+				{
+					transform.TranslateY = this.ActualTopBottomGap + this.IndicatorOffset;
+					transform.ScaleX = this.IndicatorScale;
+					transform.ScaleY = this.IndicatorScale;
+				}
+			}
 		}
 
 		protected double GetOuterDiameter(Size containerSize)
@@ -87,35 +100,18 @@ namespace Porrey.Controls.ColorPicker
 
 			return returnVaule;
 		}
-
-		protected override Size MeasureOverride(Size availableSize)
-		{
-			Size returnValue = base.MeasureOverride(availableSize);
-
-			// ***
-			// *** If margin is specified, it is already removed from
-			// *** availableSize.
-			// ***
-			if (availableSize.Width < availableSize.Height)
-			{
-				returnValue = new Size(availableSize.Width, availableSize.Width);
-			}
-			else
-			{
-				returnValue = new Size(availableSize.Height, availableSize.Height);
-			}
-
-			return returnValue;
-		}
-
 		#endregion
 
 		#region Dependency Properties
 		public static readonly DependencyProperty ActualOuterDiameterProperty = DependencyProperty.Register("ActualOuterDiameter", typeof(double), typeof(ColorPickerWheel), new PropertyMetadata(0, new PropertyChangedCallback(OnActualOuterDiameterPropertyChanged)));
 		public static readonly DependencyProperty InnerDiameterProperty = DependencyProperty.Register("InnerDiameter", typeof(double), typeof(ColorPickerWheel), new PropertyMetadata(.55, new PropertyChangedCallback(OnInnerDiameterPropertyChanged)));
-		public static readonly DependencyProperty ActualInnerDiameterProperty = DependencyProperty.Register("ActualInnerDiameter", typeof(double), typeof(ColorPickerWheel), new PropertyMetadata(.55, new PropertyChangedCallback(OnActualInnerDiameterPropertyChanged)));
-		public static readonly DependencyProperty IndicatorBackgroundProperty = DependencyProperty.Register("IndicatorBackground", typeof(Brush), typeof(ColorPickerWheel), new PropertyMetadata(null, new PropertyChangedCallback(OnIndicatorBackgroundPropertyChanged)));
+		public static readonly DependencyProperty ActualInnerDiameterProperty = DependencyProperty.Register("ActualInnerDiameter", typeof(double), typeof(ColorPickerWheel), new PropertyMetadata(0, new PropertyChangedCallback(OnActualInnerDiameterPropertyChanged)));
+		public static readonly DependencyProperty ActualOuterRadiusProperty = DependencyProperty.Register("ActualOuterRadius", typeof(double), typeof(ColorPickerWheel), new PropertyMetadata(0, new PropertyChangedCallback(OnActualOuterRadiusPropertyChanged)));
+		public static readonly DependencyProperty ActualTopBottomGapProperty = DependencyProperty.Register("ActualTopBottomGap", typeof(double), typeof(ColorPickerWheel), new PropertyMetadata(0, new PropertyChangedCallback(OnActualOuterRadiusPropertyChanged)));
+		public static readonly DependencyProperty ActualLeftRightGapProperty = DependencyProperty.Register("ActualLeftRightGap", typeof(double), typeof(ColorPickerWheel), new PropertyMetadata(0, new PropertyChangedCallback(OnActualOuterRadiusPropertyChanged)));
 		public static readonly DependencyProperty IndicatorOffsetProperty = DependencyProperty.Register("IndicatorOffset", typeof(double), typeof(ColorPickerWheel), new PropertyMetadata(0, new PropertyChangedCallback(OnIndicatorOffsetPropertyChanged)));
+		public static readonly DependencyProperty IndicatorProperty = DependencyProperty.Register("Indicator", typeof(object), typeof(ColorPickerWheel), new PropertyMetadata(null, new PropertyChangedCallback(OnIndicatorPropertyChanged)));
+		public static readonly DependencyProperty IndicatorScaleProperty = DependencyProperty.Register("IndicatorScale", typeof(double), typeof(ColorPickerWheel), new PropertyMetadata(1.0, new PropertyChangedCallback(OnIndicatorScalePropertyChanged)));
 		public static readonly DependencyProperty RotationProperty = DependencyProperty.Register("Rotation", typeof(double), typeof(ColorPickerWheel), new PropertyMetadata(0.0, new PropertyChangedCallback(OnRotationPropertyChanged)));
 		public static readonly DependencyProperty HueProperty = DependencyProperty.Register("Hue", typeof(int), typeof(ColorPickerWheel), new PropertyMetadata(0, new PropertyChangedCallback(OnHuePropertyChanged)));
 		public static readonly DependencyProperty SaturationProperty = DependencyProperty.Register("Saturation", typeof(double), typeof(ColorPickerWheel), new PropertyMetadata(1.0, new PropertyChangedCallback(OnSaturationPropertyChanged)));
@@ -128,8 +124,12 @@ namespace Porrey.Controls.ColorPicker
 		public event EventHandler<ValueChangedEventArgs<double>> ActualOuterDiameterChanged = null;
 		public event EventHandler<ValueChangedEventArgs<double>> InnerDiameterChanged = null;
 		public event EventHandler<ValueChangedEventArgs<double>> ActualInnerDiameterChanged = null;
-		public event EventHandler<ValueChangedEventArgs<Brush>> IndicatorBackgroundChanged = null;
+		public event EventHandler<ValueChangedEventArgs<double>> ActualOuterRadiusChanged = null;
+		public event EventHandler<ValueChangedEventArgs<double>> ActualTopBottomGapChanged = null;
+		public event EventHandler<ValueChangedEventArgs<double>> ActualLeftRightGapChanged = null;
 		public event EventHandler<ValueChangedEventArgs<double>> IndicatorOffsetChanged = null;
+		public event EventHandler<ValueChangedEventArgs<object>> IndicatorChanged = null;
+		public event EventHandler<ValueChangedEventArgs<object>> IndicatorScaleChanged = null;
 		public event EventHandler<ValueChangedEventArgs<double>> RotationChanged = null;
 		public event EventHandler<ValueChangedEventArgs<int>> HueChanged = null;
 		public event EventHandler<ValueChangedEventArgs<double>> SaturationChanged = null;
@@ -170,14 +170,36 @@ namespace Porrey.Controls.ColorPicker
 		{
 		}
 
-		protected virtual void RaiseIndicatorBackgroundChangedEvent(Brush previousValue, Brush newValue)
+		protected virtual void RaiseActualOuterRadiusChangedEvent(double previousValue, double newValue)
 		{
-			ValueChangedEventArgs<Brush> e = new ValueChangedEventArgs<Brush>(previousValue, newValue);
-			this.OnIndicatorBackgroundChangedEvent(this, e);
-			this.IndicatorBackgroundChanged?.Invoke(this, e);
+			ValueChangedEventArgs<double> e = new ValueChangedEventArgs<double>(previousValue, newValue);
+			this.OnActualOuterRadiusChangedEvent(this, e);
+			this.ActualOuterRadiusChanged?.Invoke(this, e);
 		}
 
-		protected virtual void OnIndicatorBackgroundChangedEvent(object sender, ValueChangedEventArgs<Brush> e)
+		protected virtual void OnActualOuterRadiusChangedEvent(object sender, ValueChangedEventArgs<double> e)
+		{
+		}
+
+		protected virtual void RaiseActualTopBottomGapChangedEvent(double previousValue, double newValue)
+		{
+			ValueChangedEventArgs<double> e = new ValueChangedEventArgs<double>(previousValue, newValue);
+			this.OnActualTopBottomGapChangedEvent(this, e);
+			this.ActualTopBottomGapChanged?.Invoke(this, e);
+		}
+
+		protected virtual void OnActualTopBottomGapChangedEvent(object sender, ValueChangedEventArgs<double> e)
+		{
+		}
+
+		protected virtual void RaiseActualLeftRightGapChangedEvent(double previousValue, double newValue)
+		{
+			ValueChangedEventArgs<double> e = new ValueChangedEventArgs<double>(previousValue, newValue);
+			this.OnActualLeftRightGapChangedEvent(this, e);
+			this.ActualLeftRightGapChanged?.Invoke(this, e);
+		}
+
+		protected virtual void OnActualLeftRightGapChangedEvent(object sender, ValueChangedEventArgs<double> e)
 		{
 		}
 
@@ -189,6 +211,28 @@ namespace Porrey.Controls.ColorPicker
 		}
 
 		protected virtual void OnIndicatorOffsetChangedEvent(object sender, ValueChangedEventArgs<double> e)
+		{
+		}
+
+		protected virtual void RaiseIndicatorChangedEvent(object previousValue, object newValue)
+		{
+			ValueChangedEventArgs<object> e = new ValueChangedEventArgs<object>(previousValue, newValue);
+			this.OnIndicatorChangedEvent(this, e);
+			this.IndicatorChanged?.Invoke(this, e);
+		}
+
+		protected virtual void OnIndicatorChangedEvent(object sender, ValueChangedEventArgs<object> e)
+		{
+		}
+
+		protected virtual void RaiseIndicatorScaleChangedEvent(object previousValue, object newValue)
+		{
+			ValueChangedEventArgs<object> e = new ValueChangedEventArgs<object>(previousValue, newValue);
+			this.OnIndicatorScaleChangedEvent(this, e);
+			this.IndicatorScaleChanged?.Invoke(this, e);
+		}
+
+		protected virtual void OnIndicatorScaleChangedEvent(object sender, ValueChangedEventArgs<object> e)
 		{
 		}
 
@@ -291,11 +335,27 @@ namespace Porrey.Controls.ColorPicker
 			}
 		}
 
-		private static void OnIndicatorBackgroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		private static void OnActualOuterRadiusPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			if (d is ColorPickerWheel instance)
 			{
-				instance.RaiseIndicatorBackgroundChangedEvent((Brush)e.OldValue, (Brush)e.NewValue);
+				instance.RaiseActualOuterRadiusChangedEvent(Convert.ToDouble(e.OldValue), Convert.ToDouble(e.NewValue));
+			}
+		}
+
+		private static void OnActualTopBottomGapPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is ColorPickerWheel instance)
+			{
+				instance.RaiseActualTopBottomGapChangedEvent(Convert.ToDouble(e.OldValue), Convert.ToDouble(e.NewValue));
+			}
+		}
+
+		private static void OnActualLeftRightGapPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is ColorPickerWheel instance)
+			{
+				instance.RaiseActualLeftRightGapChangedEvent(Convert.ToDouble(e.OldValue), Convert.ToDouble(e.NewValue));
 			}
 		}
 
@@ -304,6 +364,22 @@ namespace Porrey.Controls.ColorPicker
 			if (d is ColorPickerWheel instance)
 			{
 				instance.RaiseIndicatorOffsetChangedEvent(Convert.ToDouble(e.OldValue), Convert.ToDouble(e.NewValue));
+			}
+		}
+
+		private static void OnIndicatorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is ColorPickerWheel instance)
+			{
+				instance.RaiseIndicatorChangedEvent(e.OldValue, e.NewValue);
+			}
+		}
+
+		private static void OnIndicatorScalePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is ColorPickerWheel instance)
+			{
+				instance.RaiseIndicatorScaleChangedEvent(e.OldValue, e.NewValue);
 			}
 		}
 
@@ -410,6 +486,14 @@ namespace Porrey.Controls.ColorPicker
 
 				this.RotaryCompositeTransform = ((CompositeTransform)this.Rotary.RenderTransform);
 				this.RotaryCompositeTransform.Rotation = this.Hue.GetRotationFromHue();
+			}
+
+			// ***
+			// *** Create the default indicator control.
+			// ***
+			if (this.Indicator == null)
+			{
+				this.Indicator = new IndicatorArrow();
 			}
 
 			// ***
@@ -586,19 +670,43 @@ namespace Porrey.Controls.ColorPicker
 			}
 		}
 
-		public Brush IndicatorBackground
+		public double ActualOuterRadius
 		{
 			get
 			{
-				return (Brush)this.GetValue(IndicatorBackgroundProperty);
+				return (double)this.GetValue(ActualOuterRadiusProperty);
 			}
-			set
+			protected set
 			{
-				this.SetValue(IndicatorBackgroundProperty, value);
+				this.SetValue(ActualOuterRadiusProperty, value);
 			}
 		}
 
-		public double Rotation
+		public double ActualTopBottomGap
+		{
+			get
+			{
+				return (double)this.GetValue(ActualTopBottomGapProperty);
+			}
+			protected set
+			{
+				this.SetValue(ActualTopBottomGapProperty, value);
+			}
+		}
+
+		public double ActualLeftRightGap
+		{
+			get
+			{
+				return (double)this.GetValue(ActualLeftRightGapProperty);
+			}
+			protected set
+			{
+				this.SetValue(ActualLeftRightGapProperty, value);
+			}
+		}
+
+		public new double Rotation
 		{
 			get
 			{
@@ -667,6 +775,30 @@ namespace Porrey.Controls.ColorPicker
 			set
 			{
 				this.SetValue(IndicatorOffsetProperty, value);
+			}
+		}
+
+		public object Indicator
+		{
+			get
+			{
+				return this.GetValue(IndicatorProperty);
+			}
+			set
+			{
+				this.SetValue(IndicatorProperty, value);
+			}
+		}
+
+		public double IndicatorScale
+		{
+			get
+			{
+				return (double)this.GetValue(IndicatorScaleProperty);
+			}
+			set
+			{
+				this.SetValue(IndicatorScaleProperty, value);
 			}
 		}
 
