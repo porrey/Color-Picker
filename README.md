@@ -19,9 +19,8 @@ The control has these features:
 * Works on Windows 10 IoT Core (tested on Raspberry Pi 3/4)
 * The following video is a demonstration of the control on Windows 10.
 
-https://youtu.be/y6iE9uPL-uM
+### Video of Feature Demonstration
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/y6iE9uPL-uM/0.jpg)](http://www.youtube.com/watch?v=y6iE9uPL-uM "Features Demonstration")
 
-LIFX Demo
-
-https://youtu.be/ACeZdnQISxU
-
+### LIFX Demo
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/ACeZdnQISxU/0.jpg)](http://www.youtube.com/watch?v= ACeZdnQISxU "LIFX Demonstration")
