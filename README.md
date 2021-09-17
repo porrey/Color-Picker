@@ -22,5 +22,5 @@ The control has these features:
 ### Video of Feature Demonstration
 [![IMAGE ALT TEXT](http://img.youtube.com/vi/y6iE9uPL-uM/0.jpg)](http://www.youtube.com/watch?v=y6iE9uPL-uM "Features Demonstration")
 
-### LIFX Demo
+### Video of LIFX Demo
 [![IMAGE ALT TEXT](http://img.youtube.com/vi/ACeZdnQISxU/0.jpg)](http://www.youtube.com/watch?v=ACeZdnQISxU "LIFX Demonstration")
