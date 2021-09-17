@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Daniel M. Porrey")]
 [assembly: AssemblyProduct("ColorPicker")]
-[assembly: AssemblyCopyright("Copyright ©  2017-2020")]
+[assembly: AssemblyCopyright("Copyright © 2018-2021 Daniel Porrey")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
