@@ -1,4 +1,4 @@
-﻿// Copyright © 2018-2021 Daniel Porrey
+﻿// Copyright © 2018-2022 Daniel Porrey
 //
 // This file is part of the Color Picker Control solution.
 // 
@@ -27,7 +27,7 @@ namespace System.Collections.ObjectModel
 		{
 			ObservableCollection<T> returnValue = new ObservableCollection<T>();
 
-			foreach (var item in items)
+			foreach (T item in items)
 			{
 				returnValue.Add(item);
 			}
@@ -39,7 +39,7 @@ namespace System.Collections.ObjectModel
 		{
 			ObservableCollection<T> returnValue = new ObservableCollection<T>();
 
-			foreach (var item in items)
+			foreach (T item in items)
 			{
 				returnValue.Add(item);
 			}
@@ -49,7 +49,7 @@ namespace System.Collections.ObjectModel
 
 		public static void AddRange<T>(this ObservableCollection<T> target, IEnumerable<T> source)
 		{
-			foreach (var item in source)
+			foreach (T item in source)
 			{
 				target.Add(item);
 			}
@@ -57,7 +57,7 @@ namespace System.Collections.ObjectModel
 
 		public static void AddRange<T>(this ObservableCollection<T> target, IQueryable<T> source)
 		{
-			foreach (var item in source)
+			foreach (T item in source)
 			{
 				target.Add(item);
 			}

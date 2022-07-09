@@ -1,4 +1,4 @@
-﻿// Copyright © 2018-2021 Daniel Porrey
+﻿// Copyright © 2018-2022 Daniel Porrey
 //
 // This file is part of the Color Picker Control solution.
 // 
@@ -20,12 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using LifxDemo.Events;
-using Microsoft.Practices.ServiceLocation;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Windows.AppModel;
-using Prism.Windows.Mvvm;
-using Prism.Windows.Navigation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 

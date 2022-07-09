@@ -1,4 +1,4 @@
-﻿// Copyright © 2018-2021 Daniel Porrey
+﻿// Copyright © 2018-2022 Daniel Porrey
 //
 // This file is part of the Color Picker Control solution.
 // 
